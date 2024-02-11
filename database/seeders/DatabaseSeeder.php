@@ -6,7 +6,9 @@ namespace Database\Seeders;
 use App\Models\Application;
 use App\Models\AttributeCollection;
 use App\Models\AttributeList;
+use App\Models\Membership;
 use App\Models\Organization;
+use App\Models\Scene;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -127,7 +129,6 @@ class DatabaseSeeder extends Seeder
             'json_data'=> json_encode($testAppAttributeListArray)
         ]);
         $app_attributelist_de->attributeCollection()->associate($app_attributecollection)->save();
-
         array_push($AppAttributeList,$app_attributelist_de);
 
         $jsonPath = database_path() . '/seeders/testdata/' . 'app_attributelist_en.json';
@@ -152,6 +153,94 @@ class DatabaseSeeder extends Seeder
         ]);
         $app_attributelist_es->attributeCollection()->associate($app_attributecollection)->save();
         array_push($AppAttributeList,$app_attributelist_es);
+
+        //memberships
+        $memberships=[];
+
+        //Bob as org admin
+        $membership[0] = Membership::create([
+            'is_org_admin' => true,
+            'is_org_manager' => true,
+            'user_id'=>$testUsers[1]->id,
+            'organization_id'=>$testOrganizations[0]->id
+        ]);
+        //Carla as org manager
+        $membership[1] = Membership::create([
+            'is_org_admin' => false,
+            'is_org_manager' => true,
+            'user_id'=>$testUsers[2]->id,
+            'organization_id'=>$testOrganizations[0]->id
+        ]);
+        //Daniel as normal member
+        $membership[2] = Membership::create([
+            'is_org_admin' => false,
+            'is_org_manager' => false,
+            'user_id'=>$testUsers[3]->id,
+            'organization_id'=>$testOrganizations[0]->id
+        ]);
+
+        $scene01 = Scene::create([
+            'sort_by' => 10,
+            'name' => 'scene 001 editor name',
+            'application_id'=> $testApplications[0]->id,
+            'organization_id'=> $testOrganizations[0]->id,
+        ]);
+        $scene02 = Scene::create([
+            'sort_by' => 20,
+            'name' => 'scene 002 editor name',
+            'application_id'=> $testApplications[0]->id,
+            'organization_id'=> $testOrganizations[0]->id,
+        ]);
+        $scene03 = Scene::create([
+            'sort_by' => 20,
+            'name' => 'scene 003 editor name',
+            'application_id'=> $testApplications[0]->id,
+            'organization_id'=> $testOrganizations[0]->id,
+        ]);
+
+        //scene attribute collection and list
+        $scene_attributecollection = AttributeCollection::create([
+            'languages' => json_encode(['de','en','es']),
+            'json_schema' => json_encode(['']),
+            'json_ui_schema' => json_encode(['']),
+            'scene_id'=> $scene01->id
+        ]);
+
+        echo($scene_attributecollection);
+        echo('\n');
+        $SceneAttributeList = [];
+
+        $jsonPath = database_path() . '/seeders/testdata/' . 'scene_attributelist_de.json';
+        $testSceneAttributeListArray = json_decode(file_get_contents($jsonPath), true);
+        $scene_attributelist_de = AttributeList::create([
+            'language_key' => 'de',
+            'json_schema' => json_encode(['']),
+            'json_ui_schema' => json_encode(['']),
+            'json_data'=> json_encode($testSceneAttributeListArray),
+            'attribute_collection_id' => $scene_attributecollection->id
+        ]);
+
+        $jsonPath = database_path() . '/seeders/testdata/' . 'scene_attributelist_en.json';
+        $testSceneAttributeListArray = json_decode(file_get_contents($jsonPath), true);
+        $scene_attributelist_en = AttributeList::create([
+            'language_key' => 'en',
+            'json_schema' => json_encode(['']),
+            'json_ui_schema' => json_encode(['']),
+            'json_data'=> json_encode($testSceneAttributeListArray),
+            'attribute_collection_id' => $scene_attributecollection->id
+        ]);
+
+        $jsonPath = database_path() . '/seeders/testdata/' . 'scene_attributelist_es.json';
+        $testSceneAttributeListArray = json_decode(file_get_contents($jsonPath), true);
+        $scene_attributelist_en = AttributeList::create([
+            'language_key' => 'es',
+            'json_schema' => json_encode(['']),
+            'json_ui_schema' => json_encode(['']),
+            'json_data'=> json_encode($testSceneAttributeListArray),
+            'attribute_collection_id' => $scene_attributecollection->id
+        ]);
+
+
 
     }
 }

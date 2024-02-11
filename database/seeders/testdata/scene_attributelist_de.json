@@ -1,0 +1,8 @@
+{
+    "scene_name": "App-Name in Deutsch lokalisiert",
+    "scene_description": "Multiline description of my scene:\n - point 1\n - point 2",
+    "scene_message": "Willkomen",
+    "url_login": "http://logindomain.com/login/de",
+    "require_credit": true,
+    "scene_timer": 3
+}
