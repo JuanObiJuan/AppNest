@@ -1,0 +1,70 @@
+models:
+  Organization:
+    timestamps: false
+    name: string:100
+    cover_members_cost: boolean default(true)
+    allow_guests: boolean default(true)
+    cover_guests_cost: boolean default(true)
+    website: url nullable
+    email: email nullable
+    relationships:
+      hasMany: Membership, Application
+      hasOne: Wallet
+
+  Application:
+    timestamps: false
+    name: string:100
+    default_language: string
+    relationships:
+      hasMany: Scene, Voice
+      belongsTo: Organization
+      hasOne: AttributeCollection
+
+  AttributeCollection:
+    timestamps: false
+    languages: json
+    json_schema: json
+    json_ui_schema: json
+    relationships:
+      hasMany: AttributeList
+      belongsTo: Application, Scene, Voice
+
+  AttributeList:
+    timestamps: false
+    language_key: string
+    json_schema: json
+    json_ui_schema: json
+    json_data: json
+    relationships:
+      belongsTo: AttributeCollection
+
+  Membership:
+    timestamps: false
+    is_org_admin: boolean default(false)
+    is_org_manager: boolean default(false)
+    relationships:
+      belongsTo: User, Organization
+      hasOne: Wallet
+
+  Wallet:
+    credit: unsignedInteger default(0)
+    timestamps: false
+    relationships:
+      belongsTo: User,Organization,Membership
+
+  Scene:
+    sort_by: unsigned integer nullable
+    name: string nullable
+    timestamps: false
+    relationships:
+      belongsTo: Application, Organization
+      hasOne: AttributeCollection
+
+  Voice:
+    name: string nullable
+    description: string nullable
+    timestamps: false
+    relationships:
+      belongsTo: Application
+      hasOne: AttributeCollection
+

@@ -1,0 +1,8 @@
+php artisan make:migration add_is_super_admin_to_users_table --table=users
+php artisan migrate
+php artisan db:seed
+
+
+//blueprint
+php artisan blueprint:new
+php artisan blueprint:build
