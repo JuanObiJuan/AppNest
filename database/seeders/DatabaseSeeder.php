@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Application;
+use App\Models\AttributeCollection;
+use App\Models\AttributeList;
 use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -97,12 +99,59 @@ class DatabaseSeeder extends Seeder
             echo "\n";
         }
 
+        //relations
+        //two apps for org 1 and the rest 1 app each
         $testApplications[0]->organization()->associate($testOrganizations[0])->save();
         $testApplications[1]->organization()->associate($testOrganizations[0])->save();
         $testApplications[2]->organization()->associate($testOrganizations[1])->save();
         $testApplications[3]->organization()->associate($testOrganizations[2])->save();
         $testApplications[4]->organization()->associate($testOrganizations[3])->save();
 
+        //app attribute collection and list
+        $app_attributecollection = AttributeCollection::create([
+            'languages' => json_encode(['de','en','es']),
+            'json_schema' => json_encode(['']),
+            'json_ui_schema' => json_encode(['']),
+            'application_id'=> $testApplications[0]->id
+        ]);
+        echo($app_attributecollection);
+        echo('\n');
+        $AppAttributeList = [];
+
+        $jsonPath = database_path() . '/seeders/testdata/' . 'app_attributelist_de.json';
+        $testAppAttributeListArray = json_decode(file_get_contents($jsonPath), true);
+        $app_attributelist_de = AttributeList::create([
+            'language_key' => 'de',
+            'json_schema' => json_encode(['']),
+            'json_ui_schema' => json_encode(['']),
+            'json_data'=> json_encode($testAppAttributeListArray)
+        ]);
+        $app_attributelist_de->attributeCollection()->associate($app_attributecollection)->save();
+
+        array_push($AppAttributeList,$app_attributelist_de);
+
+        $jsonPath = database_path() . '/seeders/testdata/' . 'app_attributelist_en.json';
+        $testAppAttributeListArray = json_decode(file_get_contents($jsonPath), true);
+        $app_attributelist_en = AttributeList::create([
+            'language_key' => 'en',
+            'json_schema' => json_encode(['']),
+            'json_ui_schema' => json_encode(['']),
+            'json_data'=> json_encode($testAppAttributeListArray)
+        ]);
+        $app_attributelist_en->attributeCollection()->associate($app_attributecollection)->save();
+        array_push($AppAttributeList,$app_attributelist_en);
+
+        $jsonPath = database_path() . '/seeders/testdata/' . 'app_attributelist_es.json';
+        $testAppAttributeListArray = json_decode(file_get_contents($jsonPath), true);
+        $app_attributelist_es = AttributeList::create([
+            'language_key' => 'es',
+            'json_schema' => json_encode(['']),
+            'json_ui_schema' =>json_encode(['']),
+            'json_data'=> json_encode($testAppAttributeListArray),
+            'attribute_collection_id'=> $app_attributecollection->id
+        ]);
+        $app_attributelist_es->attributeCollection()->associate($app_attributecollection)->save();
+        array_push($AppAttributeList,$app_attributelist_es);
 
     }
 }

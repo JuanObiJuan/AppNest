@@ -1,0 +1,10 @@
+{
+    "app_name": "App-Name in Deutsch lokalisiert",
+    "app_description": "Multiline description of my app:\n - point 1\n - point 2",
+    "button_start": "Start",
+    "button_cancel": "Stornieren",
+    "button_continue": "Weiter",
+    "url_login": "http://logindomain.com/login/de",
+    "require_credit": true,
+    "waiting_timer": 2.3
+}
