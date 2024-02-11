@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Application;
 use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -42,7 +43,7 @@ class DatabaseSeeder extends Seeder
                 echo "already exist user " . $testItem['name'];
             }
 
-            $dbUser = DB::table('users')->where('email', $testItem['email'])->first();
+            $dbUser = User::where('email', $testItem['email'])->first();
             array_push($testUsers,$dbUser);
             echo "\n";
         }
@@ -69,10 +70,38 @@ class DatabaseSeeder extends Seeder
             } else {
                 echo "already exist item " . $testItem['name'];
             }
-            $dbOrganization = DB::table('organizations')->where('email', $testItem['email'])->first();
+            $dbOrganization = Organization::where('email', $testItem['email'])->first();
             array_push($testOrganizations,$dbOrganization);
             echo "\n";
         }
+
+        //Applications
+        $jsonPath = database_path() . '/seeders/testdata/' . 'applications.json';
+        $testArray = json_decode(file_get_contents($jsonPath), true);
+        $testApplications=[];
+
+        foreach ($testArray as $testItem) {
+            $dbApplication = DB::table('applications')->where('name', $testItem['name'])->first();
+
+            if (is_null($dbApplication)) {
+                echo "creating item " . $testItem['name'];
+                Application::create([
+                    'name' => $testItem['name'],
+                    'default_language' => $testItem['default_language'],
+                ]);
+            } else {
+                echo "already exist item " . $testItem['name'];
+            }
+            $dbApplication = Application::where('name', $testItem['name'])->first();
+            array_push($testApplications,$dbApplication);
+            echo "\n";
+        }
+
+        $testApplications[0]->organization()->associate($testOrganizations[0])->save();
+        $testApplications[1]->organization()->associate($testOrganizations[0])->save();
+        $testApplications[2]->organization()->associate($testOrganizations[1])->save();
+        $testApplications[3]->organization()->associate($testOrganizations[2])->save();
+        $testApplications[4]->organization()->associate($testOrganizations[3])->save();
 
 
     }

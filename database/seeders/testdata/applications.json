@@ -1,0 +1,23 @@
+[
+    {
+        "name": "App 1 exclusive for org 1",
+        "default_language": "de"
+    },
+    {
+        "name": "App 2 exclusive for org 1",
+        "default_language": "en"
+    },
+    {
+        "name": "App for org 2",
+        "default_language": "de"
+    },
+    {
+        "name": "App for org 3",
+        "default_language": "de"
+    },
+    {
+        "name": "App for org 4",
+        "default_language": "de"
+    }
+
+]
