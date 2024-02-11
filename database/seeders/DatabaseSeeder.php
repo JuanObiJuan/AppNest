@@ -10,6 +10,7 @@ use App\Models\Membership;
 use App\Models\Organization;
 use App\Models\Scene;
 use App\Models\User;
+use App\Models\Voice;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -239,6 +240,58 @@ class DatabaseSeeder extends Seeder
             'json_data'=> json_encode($testSceneAttributeListArray),
             'attribute_collection_id' => $scene_attributecollection->id
         ]);
+
+        $voice_01 = Voice::create([
+            'name' => 'Voice name',
+            'description' => 'My voice description',
+            'application_id'=>$testApplications[0]->id
+        ]);
+
+        //voice attribute collection and list
+        $voice_attributecollection = AttributeCollection::create([
+            'languages' => json_encode(['de','en','es']),
+            'json_schema' => json_encode(['']),
+            'json_ui_schema' => json_encode(['']),
+            'voice_id'=> $voice_01->id
+        ]);
+
+        echo($voice_attributecollection);
+        echo('\n');
+
+        $jsonPath = database_path() . '/seeders/testdata/' . 'voice_001_de.json';
+        $testVoiceAttributeListArray = json_decode(file_get_contents($jsonPath), true);
+        $voice_attributelist_de = AttributeList::create([
+            'language_key' => 'de',
+            'json_schema' => json_encode(['']),
+            'json_ui_schema' => json_encode(['']),
+            'json_data'=> json_encode($testVoiceAttributeListArray),
+            'attribute_collection_id' => $voice_attributecollection->id
+        ]);
+
+        $jsonPath = database_path() . '/seeders/testdata/' . 'voice_001_en.json';
+        $testVoiceAttributeListArray = json_decode(file_get_contents($jsonPath), true);
+        $voice_attributelist_en = AttributeList::create([
+            'language_key' => 'en',
+            'json_schema' => json_encode(['']),
+            'json_ui_schema' => json_encode(['']),
+            'json_data'=> json_encode($testVoiceAttributeListArray),
+            'attribute_collection_id' => $voice_attributecollection->id
+        ]);
+
+        $jsonPath = database_path() . '/seeders/testdata/' . 'voice_001_es.json';
+        $testVoiceAttributeListArray = json_decode(file_get_contents($jsonPath), true);
+        $voice_attributelist_es = AttributeList::create([
+            'language_key' => 'es',
+            'json_schema' => json_encode(['']),
+            'json_ui_schema' => json_encode(['']),
+            'json_data'=> json_encode($testVoiceAttributeListArray),
+            'attribute_collection_id' => $voice_attributecollection->id
+        ]);
+
+
+
+
+
 
 
 
