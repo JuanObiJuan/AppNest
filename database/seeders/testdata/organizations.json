@@ -1,0 +1,34 @@
+[
+    {
+        "name": "organization one",
+        "cover_members_cost": true,
+        "allow_guests": true,
+        "cover_guests_cost": true,
+        "website": "www.org1.com",
+        "email": "org1@mail.com"
+    },
+    {
+        "name": "organization two",
+        "cover_members_cost": true,
+        "allow_guests": true,
+        "cover_guests_cost": false,
+        "website": "www.org2.com",
+        "email": "org2@mail.com"
+    },
+    {
+        "name": "organization three",
+        "cover_members_cost": true,
+        "allow_guests": false,
+        "cover_guests_cost": false,
+        "website": "www.org3.com",
+        "email": "org3@mail.com"
+    },
+    {
+        "name": "organization four",
+        "cover_members_cost": false,
+        "allow_guests": false,
+        "cover_guests_cost": false,
+        "website": "www.org4.com",
+        "email": "org4@mail.com"
+    }
+]

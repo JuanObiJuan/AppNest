@@ -6,3 +6,7 @@ php artisan db:seed
 //blueprint
 php artisan blueprint:new
 php artisan blueprint:build
+
+// refresh data and create test entries
+php artisan migrate:fresh
+php artisan db:seed
