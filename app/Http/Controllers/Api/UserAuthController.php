@@ -14,7 +14,8 @@ class UserAuthController extends Controller
         //required a valid email format and enough string for a password
         $loginUserData = $request->validate([
             'email'=>'required|string|email',
-            'password'=>'required|min:8'
+            //'password'=>'required|min:8'
+            'password'=>'required'
         ]);
 
         $user = User::where('email',$loginUserData['email'])->first();
