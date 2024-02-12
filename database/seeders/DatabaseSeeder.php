@@ -287,12 +287,46 @@ class DatabaseSeeder extends Seeder
             'json_data'=> json_encode($testVoiceAttributeListArray),
             'attribute_collection_id' => $voice_attributecollection->id
         ]);
+        echo("\n");
+        echo("user test");
+        echo("\n");
+        echo('user 0 is super admin: '.$testUsers[0]->isSuperAdmin());
+        echo("\n");
+        echo('user 1 is super admin: '.$testUsers[1]->isSuperAdmin());
+        echo("\n");
 
+        echo('user 0 is org member: '.$testUsers[0]->isOrgMember(1));
+        echo("\n");
+        echo('user 1 is org member: '.$testUsers[1]->isOrgMember(1));
+        echo("\n");
+        echo('user 2 is org member: '.$testUsers[2]->isOrgMember(1));
+        echo("\n");
+        echo('user 3 is org member: '.$testUsers[3]->isOrgMember(1));
+        echo("\n");
+        echo('user 4 is org member: '.$testUsers[4]->isOrgMember(1));
+        echo("\n");
 
+        echo('user 0 is org admin: '.$testUsers[0]->isOrgAdmin(1));
+        echo("\n");
+        echo('user 1 is org admin: '.$testUsers[1]->isOrgAdmin(1));
+        echo("\n");
+        echo('user 2 is org admin: '.$testUsers[2]->isOrgAdmin(1));
+        echo("\n");
+        echo('user 3 is org admin: '.$testUsers[3]->isOrgAdmin(1));
+        echo("\n");
+        echo('user 4 is org admin: '.$testUsers[4]->isOrgAdmin(1));
+        echo("\n");
 
-
-
-
+        echo('user 0 is org manager: '.$testUsers[0]->isOrgManager(1));
+        echo("\n");
+        echo('user 1 is org manager: '.$testUsers[1]->isOrgManager(1));
+        echo("\n");
+        echo('user 2 is org manager: '.$testUsers[2]->isOrgManager(1));
+        echo("\n");
+        echo('user 3 is org manager: '.$testUsers[3]->isOrgManager(1));
+        echo("\n");
+        echo('user 4 is org manager: '.$testUsers[4]->isOrgManager(1));
+        echo("\n");
 
 
     }
