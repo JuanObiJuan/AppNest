@@ -58,4 +58,9 @@ class Organization extends Model
     {
         return $this->hasOne(Wallet::class);
     }
+
+    public function GuestAreAllowed(){
+
+        return $this->allow_guests;
+    }
 }
