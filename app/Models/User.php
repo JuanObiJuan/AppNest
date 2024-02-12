@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -43,4 +44,44 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function isSuperAdmin():bool
+    {
+        return $this->is_super_admin; // Assuming 'is_super_admin' is the column name
+    }
+
+    /**
+     * Check if the user is a member of a given organization.
+     *
+     * @param int $organizationId
+     * @return bool
+     */
+    public function isOrgMember($organizationId):bool
+    {
+        $membership = Membership::where('user_id', $this->id)
+            ->where('organization_id', $organizationId)
+            ->first();
+
+        return $membership===null?false:true;
+    }
+
+    public function isOrgAdmin($organizationId):bool
+    {
+        $membership = Membership::where('user_id', $this->id)
+            ->where('organization_id', $organizationId)
+            ->where('is_org_admin', 1)
+            ->first();
+
+        return $membership===null?false:true;
+    }
+
+    public function isOrgManager($organizationId):bool
+    {
+        $membership = Membership::where('user_id', $this->id)
+            ->where('organization_id', $organizationId)
+            ->where('is_org_manager', 1)
+            ->first();
+
+        return $membership===null?false:true;
+    }
 }
