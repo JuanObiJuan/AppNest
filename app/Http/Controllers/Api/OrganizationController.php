@@ -28,9 +28,8 @@ class OrganizationController extends Controller
 
             return new OrganizationResource($organization);
         }
-        else{
-            return response()->json(['error' => 'Not authorized.'],403);
-        }
+
+        return response()->json(['error' => 'Not authorized.'],403);
 
     }
 
@@ -51,10 +50,7 @@ class OrganizationController extends Controller
             $organizations = Organization::whereIn('id', $organizationIds)->get();
             return OrganizationResource::collection($organizations);
         }
-
         return response()->json(['error' => 'Not found.'],404);
-
-
     }
 
 }

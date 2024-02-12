@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ApplicationController;
 use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\UserAuthController;
 use Illuminate\Http\Request;
@@ -30,23 +31,33 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //Route::get('/organizations', function () {
 //    return \App\Http\Resources\OrganizationResource::collection(\App\Models\Organization::all());
 //})->middleware('auth:sanctum');
-
 //Route::get('/organization/{id}', function (string $id) {
 //    return new \App\Http\Resources\OrganizationResource(\App\Models\Organization::findOrFail($id));
 //})->middleware('auth:sanctum');
 
-Route::get('/organizations', [OrganizationController::class, 'index'])->middleware('auth:sanctum');
+Route::get('/organizations', [OrganizationController::class, 'index'])
+    ->middleware('auth:sanctum');
 
-Route::get('/organizations/{id}', [OrganizationController::class, 'show'])->middleware('auth:sanctum');
+Route::get('/organizations/{id}', [OrganizationController::class, 'show'])
+    ->middleware('auth:sanctum');
 
 //APPLICATION
 
-Route::get('/applications', function () {
-    return \App\Http\Resources\ApplicationResource::collection(\App\Models\Application::all());
-});
-Route::get('/application/{id}', function (string $id) {
-    return new \App\Http\Resources\ApplicationResource(\App\Models\Application::with(['attributeCollection.attributeLists','scenes.attributeCollection.attributeLists','voices.attributeCollection.attributeLists'])->find($id));
-});
+Route::get('/applications/{id}', [ApplicationController::class, 'show'])
+    ->middleware('auth:sanctum');
+
+Route::get('/organizations/{org_id}/applications/{app_id}', [ApplicationController::class, 'showAppFromOrg'])
+    ->middleware('auth:sanctum');
+
+Route::get('/applications', [ApplicationController::class, 'index'])
+    ->middleware('auth:sanctum');
+
+//Route::get('/applications', function () {
+//    return \App\Http\Resources\ApplicationResource::collection(\App\Models\Application::all());
+//});
+//Route::get('/applications/{id}', function (string $id) {
+//    return new \App\Http\Resources\ApplicationResource(\App\Models\Application::with(['attributeCollection.attributeLists','scenes.attributeCollection.attributeLists','voices.attributeCollection.attributeLists'])->find($id));
+//});
 
 //ATTRIBUTE COLLECTION
 

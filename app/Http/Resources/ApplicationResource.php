@@ -18,7 +18,7 @@ class ApplicationResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'organization' => $this->organization->name,
+            'organization_id' => $this->organization->id,
             'default_language' => $this->default_language,
             'app_attributes'=>$this->when($this->attributeCollection, new AttributeCollectionResource($this->attributeCollection)),
             'scenes'=> SceneResource::collection($this->whenLoaded('scenes')),
