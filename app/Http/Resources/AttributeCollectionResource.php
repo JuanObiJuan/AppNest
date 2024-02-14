@@ -17,9 +17,10 @@ class AttributeCollectionResource extends JsonResource
         //return parent::toArray($request);
 
         return [
-            'id' => $this->id,
+            'attributecollection_id' => $this->id,
             'languages' => $this->languages,
-            'attribute_collection' => AttributeListResource::collection($this->whenLoaded('attributeLists')),
+            //'attribute_collection' => AttributeListResource::collection($this->whenLoaded('attributeLists')),
+            'attribute_collection' => AttributeListResource::collection($this->attributeLists),
 
         ];
    }

@@ -24,7 +24,11 @@ class ApplicationController extends Controller
     public function showAppFromOrg($org_id,$app_id){
 
         $user = Auth::user();
-        $application = Application::find($app_id);
+        $application = Application
+            ::with(['attributeCollection.attributeLists','scenes.attributeCollection.attributeLists','voices.attributeCollection.attributeLists'])
+            ->find($app_id);
+        //echo($application->toJson(JSON_PRETTY_PRINT));
+
         $organization = Organization::find($org_id);
 
         if (!$application||!$organization||$application->organization_id!=$organization->id) return response()->json(['error' => 'Not found.'],404);
@@ -59,7 +63,11 @@ class ApplicationController extends Controller
         $organizationIds = array_merge($organizationIds_as_member->toArray(), $organizationIds_as_guest->toArray());
 
         if (count($organizationIds)>0){
-            $applications = Application::whereIn('organization_id', $organizationIds)->get();
+            $applications = Application
+                ::with('attributeCollection.attributeLists')
+                ::whereIn('organization_id', $organizationIds)
+                ->get();
+            echo($applications->toJson(JSON_PRETTY_PRINT));
             return ApplicationResource::collection($applications);
         }
 

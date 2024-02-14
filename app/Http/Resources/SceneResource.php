@@ -15,7 +15,7 @@ class SceneResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
+            'scene_id' => $this->id,
             'name' => $this->name,
             'scene_attributes'=>$this->when($this->attributeCollection, new AttributeCollectionResource($this->attributeCollection))
 

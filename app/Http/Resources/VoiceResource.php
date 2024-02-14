@@ -17,7 +17,7 @@ class VoiceResource extends JsonResource
     {
         //return parent::toArray($request);
         return [
-            'id' => $this->id,
+            'voice_id' => $this->id,
             'name' => $this->name,
             'description'=> $this->description,
             //'attribute_collection' => AttributeCollectionResource($this->whenLoaded('attributeCollection')),

@@ -16,7 +16,7 @@ class ApplicationResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
+            'app_id' => $this->id,
             'name' => $this->name,
             'organization_id' => $this->organization->id,
             'default_language' => $this->default_language,

@@ -23,7 +23,7 @@ class OrganizationResource extends JsonResource
         $user_is_OrgAdmin = $user->isOrgAdmin($this->id);
 
         return [
-            'id' => $this->id,
+            'orgnanization_id' => $this->id,
             'name' => $this->name,
             'website' => $this->website,
             'email' => $this->email,
