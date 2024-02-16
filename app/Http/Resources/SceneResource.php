@@ -16,10 +16,9 @@ class SceneResource extends JsonResource
     {
         return [
             'scene_id' => $this->id,
+            'sort_by' => $this->sort_by,
             'name' => $this->name,
             'scene_attributes'=>$this->when($this->attributeCollection, new AttributeCollectionResource($this->attributeCollection))
-
-
         ];
     }
 }

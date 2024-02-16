@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\ApplicationController;
 use App\Http\Controllers\Api\OrganizationController;
+use App\Http\Controllers\Api\SceneController;
 use App\Http\Controllers\Api\UserAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -70,3 +71,7 @@ Route::get('/attributecollection/{id}', function (string $id) {
 Route::get('/attributelist/{id}', function (string $id) {
     return new \App\Http\Resources\AttributeListResource(\App\Models\AttributeList::findOrFail($id));
 });
+
+//SCENE
+Route::get('/organizations/{org_id}/applications/{app_id}/scenes/{scene_id}', [SceneController::class, 'show'])
+    ->middleware('auth:sanctum');
