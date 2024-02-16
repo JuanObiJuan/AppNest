@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('description')->nullable();
             $table->foreignIdFor(\App\Models\Application::class)->nullable();
+            $table->foreignIdFor(\App\Models\Organization::class)->nullable();
+
         });
     }
 
