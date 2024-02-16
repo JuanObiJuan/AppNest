@@ -27,6 +27,7 @@ class Voice extends Model
         'name',
         'description',
         'application_id',
+        'organization_id',
     ];
 
     /**
@@ -37,11 +38,17 @@ class Voice extends Model
     protected $casts = [
         'id' => 'integer',
         'application_id' => 'integer',
+        'organization_id' => 'integer',
     ];
 
     public function application(): BelongsTo
     {
         return $this->belongsTo(Application::class);
+    }
+
+    public function organization(): BelongsTo
+    {
+        return $this->belongsTo(Organization::class);
     }
 
     public function attributeCollection(): HasOne

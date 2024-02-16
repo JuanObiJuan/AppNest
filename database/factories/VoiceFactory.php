@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Application;
+use App\Models\Organization;
 use App\Models\Voice;
 
 class VoiceFactory extends Factory
@@ -25,6 +26,7 @@ class VoiceFactory extends Factory
             'name' => $this->faker->name(),
             'description' => $this->faker->text(),
             'application_id' => Application::factory(),
+            'organization_id' => Organization::factory(),
         ];
     }
 }
