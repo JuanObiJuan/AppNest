@@ -23,8 +23,6 @@ class AttributeListFactory extends Factory
     {
         return [
             'language_key' => $this->faker->word(),
-            'json_schema' => '{}',
-            'json_ui_schema' => '{}',
             'json_data' => '{}',
             'attribute_collection_id' => AttributeCollection::factory(),
         ];
