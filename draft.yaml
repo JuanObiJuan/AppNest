@@ -24,7 +24,6 @@ models:
     timestamps: false
     languages: json
     json_schema: json
-    #maybe we should hold the schema in a higher level than
     json_ui_schema: json
     relationships:
       hasMany: AttributeList
@@ -33,12 +32,6 @@ models:
   AttributeList:
     timestamps: false
     language_key: string
-    #we can hold the schema
-    #of attributelist and language key
-    json_schema: json
-    #ui schema is not necessary here,
-    #but in attribute collection
-    json_ui_schema: json
     json_data: json
     relationships:
       belongsTo: AttributeCollection
@@ -70,6 +63,6 @@ models:
     description: string nullable
     timestamps: false
     relationships:
-      belongsTo: Application
+      belongsTo: Application, Organization
       hasOne: AttributeCollection
 
