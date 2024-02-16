@@ -10,3 +10,38 @@ php artisan blueprint:build
 // refresh data and create test entries
 php artisan migrate:fresh
 php artisan db:seed
+
+
+//basic proposal to generate json schemas
+
+<?php
+
+$json = '{"name": "John Doe", "age": 30, "is_student": false, "courses": ["Math", "Science"]}';
+
+// Decode the JSON string into a PHP object
+$data = json_decode($json);
+
+// Function to recursively analyze the data and generate a schema proposal
+function analyzeData($data, $level = 0) {
+    foreach ($data as $key => $value) {
+        echo str_repeat(" ", $level * 4) . "$key: " . getType($value) . "\n";
+        if (is_object($value) || is_array($value)) {
+            analyzeData($value, $level + 1);
+        }
+    }
+}
+
+// Start the analysis
+analyzeData($data);
+
+?>
+
+Should generate something like this
+
+name: string
+age: integer
+is_student: boolean
+courses: array
+
+
+

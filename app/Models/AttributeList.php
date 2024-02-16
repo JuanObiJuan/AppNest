@@ -47,4 +47,8 @@ class AttributeList extends Model
     {
         return $this->belongsTo(AttributeCollection::class);
     }
+
+    public function getJsonSchema(){
+
+    }
 }
