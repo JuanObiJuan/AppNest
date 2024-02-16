@@ -20,9 +20,7 @@ class AttributeListResource extends JsonResource
         return [
             'attributelist_id' => $this->id,
             'language_key' => $this->language_key,
-            'json_data' => json_decode($this->json_data),
-            'json_schema' => json_decode($this->json_schema),
-            'json_ui_schema' => json_decode($this->json_ui_schema),
+            'json_data' => json_decode($this->json_data)
         ];
 
     }

@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('attribute_lists', function (Blueprint $table) {
             $table->id();
             $table->string('language_key');
-            $table->json('json_schema');
-            $table->json('json_ui_schema');
             $table->json('json_data');
             $table->foreignIdFor(\App\Models\AttributeCollection::class)->nullable();
         });
