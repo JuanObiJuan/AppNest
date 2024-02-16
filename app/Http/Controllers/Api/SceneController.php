@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ApplicationResource;
 use App\Http\Resources\SceneResource;
 use App\Models\Organization;
 use App\Models\Scene;
