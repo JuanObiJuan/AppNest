@@ -24,8 +24,6 @@ class AttributeList extends Model
      */
     protected $fillable = [
         'language_key',
-        'json_schema',
-        'json_ui_schema',
         'json_data',
         'attribute_collection_id',
     ];
@@ -37,8 +35,6 @@ class AttributeList extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'json_schema' => 'array',
-        'json_ui_schema' => 'array',
         'json_data' => 'array',
         'attribute_collection_id' => 'integer',
     ];
