@@ -46,6 +46,7 @@ class ApplicationController extends Controller
             ||$user_is_allowed_As_guest
         ) return new ApplicationResource($application);
 
+        //If other case decline the response as not authorize
         return response()->json(['error' => 'Not authorized.'],403);
     }
 
