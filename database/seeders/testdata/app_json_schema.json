@@ -1,0 +1,168 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "app_name": {
+            "type": "object",
+            "properties": {
+                "en": {
+                    "type": "string"
+                },
+                "de": {
+                    "type": "string"
+                },
+                "es": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "en",
+                "de",
+                "es"
+            ]
+        },
+        "app_description": {
+            "type": "object",
+            "properties": {
+                "en": {
+                    "type": "string"
+                },
+                "de": {
+                    "type": "string"
+                },
+                "es": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "en",
+                "de",
+                "es"
+            ]
+        },
+        "button_start": {
+            "type": "object",
+            "properties": {
+                "en": {
+                    "type": "string"
+                },
+                "de": {
+                    "type": "string"
+                },
+                "es": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "en",
+                "de",
+                "es"
+            ]
+        },
+        "button_cancel": {
+            "type": "object",
+            "properties": {
+                "en": {
+                    "type": "string"
+                },
+                "de": {
+                    "type": "string"
+                },
+                "es": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "en",
+                "de",
+                "es"
+            ]
+        },
+        "button_continue": {
+            "type": "object",
+            "properties": {
+                "en": {
+                    "type": "string"
+                },
+                "de": {
+                    "type": "string"
+                },
+                "es": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "en",
+                "de",
+                "es"
+            ]
+        },
+        "url_login": {
+            "type": "object",
+            "properties": {
+                "en": {
+                    "type": "string"
+                },
+                "de": {
+                    "type": "string"
+                },
+                "es": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "en",
+                "de",
+                "es"
+            ]
+        },
+        "require_credit": {
+            "type": "object",
+            "properties": {
+                "en": {
+                    "type": "boolean"
+                },
+                "de": {
+                    "type": "boolean"
+                },
+                "es": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "en",
+                "de",
+                "es"
+            ]
+        },
+        "waiting_timer": {
+            "type": "object",
+            "properties": {
+                "en": {
+                    "type": "number"
+                },
+                "de": {
+                    "type": "number"
+                },
+                "es": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "en",
+                "de",
+                "es"
+            ]
+        }
+    },
+    "required": [
+        "app_name",
+        "app_description",
+        "button_start",
+        "button_cancel",
+        "button_continue",
+        "url_login",
+        "require_credit",
+        "waiting_timer"
+    ]
+}

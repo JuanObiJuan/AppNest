@@ -1,0 +1,188 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "scene_file": {
+            "type": "object",
+            "properties": {
+                "en": {
+                    "type": "string"
+                },
+                "de": {
+                    "type": "string"
+                },
+                "es": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "en",
+                "de",
+                "es"
+            ]
+        },
+        "scene_title": {
+            "type": "object",
+            "properties": {
+                "en": {
+                    "type": "string"
+                },
+                "de": {
+                    "type": "string"
+                },
+                "es": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "en",
+                "de",
+                "es"
+            ]
+        },
+        "scene_subtitle": {
+            "type": "object",
+            "properties": {
+                "en": {
+                    "type": "string"
+                },
+                "de": {
+                    "type": "string"
+                },
+                "es": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "en",
+                "de",
+                "es"
+            ]
+        },
+        "scene_description_short": {
+            "type": "object",
+            "properties": {
+                "en": {
+                    "type": "string"
+                },
+                "de": {
+                    "type": "string"
+                },
+                "es": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "en",
+                "de",
+                "es"
+            ]
+        },
+        "scene_timer_minutes": {
+            "type": "object",
+            "properties": {
+                "en": {
+                    "type": "integer"
+                },
+                "de": {
+                    "type": "integer"
+                },
+                "es": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "en",
+                "de",
+                "es"
+            ]
+        },
+        "chat_character_name": {
+            "type": "object",
+            "properties": {
+                "en": {
+                    "type": "string"
+                },
+                "de": {
+                    "type": "string"
+                },
+                "es": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "en",
+                "de",
+                "es"
+            ]
+        },
+        "chat_character_prompt": {
+            "type": "object",
+            "properties": {
+                "en": {
+                    "type": "string"
+                },
+                "de": {
+                    "type": "string"
+                },
+                "es": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "en",
+                "de",
+                "es"
+            ]
+        },
+        "chat_character_start": {
+            "type": "object",
+            "properties": {
+                "en": {
+                    "type": "boolean"
+                },
+                "de": {
+                    "type": "boolean"
+                },
+                "es": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "en",
+                "de",
+                "es"
+            ]
+        },
+        "chat_character_start_dialogue": {
+            "type": "object",
+            "properties": {
+                "en": {
+                    "type": "string"
+                },
+                "de": {
+                    "type": "string"
+                },
+                "es": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "en",
+                "de",
+                "es"
+            ]
+        }
+    },
+    "required": [
+        "scene_file",
+        "scene_title",
+        "scene_subtitle",
+        "scene_description_short",
+        "scene_timer_minutes",
+        "chat_character_name",
+        "chat_character_prompt",
+        "chat_character_start",
+        "chat_character_start_dialogue"
+    ]
+}

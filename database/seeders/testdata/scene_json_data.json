@@ -1,0 +1,47 @@
+{
+    "scene_file": {
+        "en": "scene_001.scene",
+        "de": "scene_001.scene",
+        "es": "scene_001.scene"
+    },
+    "scene_title": {
+        "en": "My scene title in english",
+        "de": "Mein Szenentitel auf Deutsch",
+        "es": "Título de mi escena en español"
+    },
+    "scene_subtitle": {
+        "en": "Scene subtitle in english",
+        "de": "Untertitel der Szene auf Deutsch",
+        "es": "Subtítulo de mi escena en español"
+    },
+    "scene_description_short": {
+        "en": "Short description of my scene in english",
+        "de": "Kurze Beschreibung meiner Szene auf Deutsch",
+        "es": "Breve description de mi escena en español"
+    },
+    "scene_timer_minutes": {
+        "en": 2,
+        "de": 2,
+        "es": 2
+    },
+    "chat_character_name": {
+        "en": "Alice",
+        "de": "Alice",
+        "es": "Alice"
+    },
+    "chat_character_prompt": {
+        "en": "This should be a multiline input text. You identify yourself as Alice, a 30 year old woman. You respond always following the next rules:\n-Don't leave you role as Alice.\n- Your responses are always nice.\n- Give the trainer some hints to talk properly with you.",
+        "de": "Sie identifizieren sich als Alice, eine 30-jährige Frau. Sie reagieren immer nach den folgenden Regeln:\n-Gib deine Rolle als Alice nicht auf.\n- Eure Antworten sind immer nett.\n- Geben Sie dem Trainer einige Hinweise, damit er richtig mit Ihnen sprechen kann.",
+        "es": "Te identificas como Alice, una mujer de 30 años. Siempre respondes siguiendo las siguientes reglas:\n- No dejes tu papel de Alice.\n- Tus respuestas siempre son muy agradables.\n- Dale al formador algunas pistas para hablar adecuadamente contigo."
+    },
+    "chat_character_start": {
+        "en": true,
+        "de": true,
+        "es": true
+    },
+    "chat_character_start_dialogue": {
+        "en": "Hello!",
+        "de": "Halloo!",
+        "es": "¡Hola!"
+    }
+}

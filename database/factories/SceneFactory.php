@@ -25,8 +25,12 @@ class SceneFactory extends Factory
         return [
             'sort_by' => $this->faker->randomNumber(),
             'name' => $this->faker->name(),
-            'application_id' => Application::factory(),
-            'organization_id' => Organization::factory(),
+            'json_data' => '{}',
+            'json_schema' => '{}',
+            'json_admin_ui_schema' => '{}',
+            'json_manager_ui_schema' => '{}',
+            'application_id' => null,
+            'organization_id' => null,
         ];
     }
 }

@@ -1,0 +1,17 @@
+{
+    "voice_provider_id": {
+        "en": "en-US-Standard-D",
+        "de": "de-DE-Standard-E",
+        "es": "es-ES-Neural2-B"
+    },
+    "voice_pitch": {
+        "en": 1.2,
+        "de": 1.7,
+        "es": 1.5
+    },
+    "speaking_rate": {
+        "en": 1.1,
+        "de": 1.3,
+        "es": 1.2
+    }
+}
