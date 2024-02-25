@@ -24,7 +24,12 @@ class ApplicationFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'default_language' => $this->faker->word(),
-            'organization_id' => Organization::factory(),
+            'languages' => '{}',
+            'json_data' => '{}',
+            'json_schema' => '{}',
+            'json_admin_ui_schema' => '{}',
+            'json_manager_ui_schema' => '{}',
+            'organization_id' => null,
         ];
     }
 }

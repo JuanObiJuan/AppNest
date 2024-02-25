@@ -1,23 +1,28 @@
 [
     {
         "name": "App 1 exclusive for org 1",
+        "languages": ["de", "en", "es"],
         "default_language": "de"
     },
     {
         "name": "App 2 exclusive for org 1",
+        "languages": ["de", "en", "es"],
         "default_language": "en"
     },
     {
         "name": "App for org 2",
+        "languages": ["de", "en", "es"],
         "default_language": "de"
     },
     {
         "name": "App for org 3",
+        "languages": ["de"],
         "default_language": "de"
     },
     {
         "name": "App for org 4",
-        "default_language": "de"
+        "languages": ["de", "en"],
+        "default_language": "en"
     }
 
 ]

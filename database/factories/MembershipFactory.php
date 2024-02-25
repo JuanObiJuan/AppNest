@@ -25,8 +25,8 @@ class MembershipFactory extends Factory
         return [
             'is_org_admin' => $this->faker->boolean(),
             'is_org_manager' => $this->faker->boolean(),
-            'user_id' => User::factory(),
-            'organization_id' => Organization::factory(),
+            'user_id' => null,
+            'organization_id' => null,
         ];
     }
 }

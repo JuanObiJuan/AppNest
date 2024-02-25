@@ -1,8 +1,0 @@
-{
-    "scene_name": "Nombre de mi escena en español",
-    "scene_description": "Multiline description of my scene:\n - point 1\n - point 2",
-    "scene_message": "Hola!",
-    "url_login": "http://logindomain.com/login/es",
-    "require_credit": true,
-    "scene_timer": 3
-}

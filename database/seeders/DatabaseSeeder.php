@@ -14,6 +14,12 @@ use App\Models\Voice;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
+function GetArrayFromJsonFile($filename)
+{
+    $filePath = database_path() . '/seeders/testdata/' . $filename;
+    return json_decode(file_get_contents($filePath), true);
+}
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -85,6 +91,11 @@ class DatabaseSeeder extends Seeder
         $testArray = json_decode(file_get_contents($jsonPath), true);
         $testApplications=[];
 
+        $app_json_data_array = GetArrayFromJsonFile('app_json_data.json');
+        $app_json_schema_array = GetArrayFromJsonFile('app_json_schema.json');
+
+
+
         foreach ($testArray as $testItem) {
             $dbApplication = DB::table('applications')->where('name', $testItem['name'])->first();
 
@@ -92,6 +103,9 @@ class DatabaseSeeder extends Seeder
                 echo "creating item " . $testItem['name'];
                 Application::create([
                     'name' => $testItem['name'],
+                    'languages' => json_encode($testItem['languages']),
+                    'json_data' => json_encode($app_json_data_array),
+                    'json_schema' => json_encode($app_json_schema_array),
                     'default_language' => $testItem['default_language'],
                 ]);
             } else {
@@ -109,44 +123,6 @@ class DatabaseSeeder extends Seeder
         $testApplications[2]->organization()->associate($testOrganizations[1])->save();
         $testApplications[3]->organization()->associate($testOrganizations[2])->save();
         $testApplications[4]->organization()->associate($testOrganizations[3])->save();
-
-        //app attribute collection and list
-        $app_attributecollection = AttributeCollection::create([
-            'languages' => json_encode(['de','en','es']),
-            'json_schema' => json_encode(['']),
-            'json_ui_schema' => json_encode(['']),
-            'application_id'=> $testApplications[0]->id
-        ]);
-        echo($app_attributecollection);
-        echo('\n');
-        $AppAttributeList = [];
-
-//        $jsonPath = database_path() . '/seeders/testdata/' . 'app_attributelist_de.json';
-//        $testAppAttributeListArray = json_decode(file_get_contents($jsonPath), true);
-//        $app_attributelist_de = AttributeList::create([
-//            'language_key' => 'de',
-//            'json_schema' => json_encode(['']),
-//            'json_ui_schema' => json_encode(['']),
-//            'json_data'=> json_encode($testAppAttributeListArray)
-//        ]);
-
-        //CREATE APP ATTRIBUTE LIST IN GERMAN (ASSOCIATE AND SAVE)
-        $jsonPath = database_path() . '/seeders/testdata/' . 'app_attributelist_de.json';
-        $app_attributelist_de = $this->CreateAttributeListFromJsonFile($jsonPath);
-        $app_attributelist_de->attributeCollection()->associate($app_attributecollection)->save();
-        array_push($AppAttributeList,$app_attributelist_de);
-
-        //CREATE APP ATTRIBUTE LIST IN ENGLISH (ASSOCIATE AND SAVE)
-        $jsonPath = database_path() . '/seeders/testdata/' . 'app_attributelist_en.json';
-        $app_attributelist_en = $this->CreateAttributeListFromJsonFile($jsonPath);
-        $app_attributelist_en->attributeCollection()->associate($app_attributecollection)->save();
-        array_push($AppAttributeList,$app_attributelist_en);
-
-        //CREATE APP ATTRIBUTE LIST IN SPANISH (ASSOCIATE AND SAVE)
-        $jsonPath = database_path() . '/seeders/testdata/' . 'app_attributelist_es.json';
-        $app_attributelist_es = $this->CreateAttributeListFromJsonFile($jsonPath);
-        $app_attributelist_es->attributeCollection()->associate($app_attributecollection)->save();
-        array_push($AppAttributeList,$app_attributelist_es);
 
 
         //MEMBERSHIPS
@@ -174,86 +150,62 @@ class DatabaseSeeder extends Seeder
             'organization_id'=>$testOrganizations[0]->id
         ]);
 
+        ///SCENES
+        $scene_json_data_array = GetArrayFromJsonFile('scene_json_data.json');
+        $scene_json_schema_array = GetArrayFromJsonFile('scene_json_schema.json');
+
         $scene01 = Scene::create([
             'sort_by' => 10,
             'name' => 'scene 001 editor name',
+            'json_data' => json_encode($scene_json_data_array),
+            'json_schema' => json_encode($scene_json_schema_array),
             'application_id'=> $testApplications[0]->id,
             'organization_id'=> $testOrganizations[0]->id,
         ]);
         $scene02 = Scene::create([
             'sort_by' => 20,
             'name' => 'scene 002 editor name',
+            'json_data' => json_encode($scene_json_data_array),
+            'json_schema' => json_encode($scene_json_schema_array),
             'application_id'=> $testApplications[0]->id,
             'organization_id'=> $testOrganizations[0]->id,
         ]);
         $scene03 = Scene::create([
             'sort_by' => 20,
             'name' => 'scene 003 editor name',
+            'json_data' => json_encode($scene_json_data_array),
+            'json_schema' => json_encode($scene_json_schema_array),
             'application_id'=> $testApplications[0]->id,
             'organization_id'=> $testOrganizations[0]->id,
         ]);
 
-        //scene attribute collection and list
-        $scene_attributecollection = AttributeCollection::create([
-            'languages' => json_encode(['de','en','es']),
-            'json_schema' => json_encode(['']),
-            'json_ui_schema' => json_encode(['']),
-            'scene_id'=> $scene01->id,
-        ]);
 
-        echo($scene_attributecollection);
-        echo('\n');
-        $SceneAttributeList = [];
-
-        ///SCENE ATTRIBUTE LIST GERMAN
-        $jsonPath = database_path() . '/seeders/testdata/' . 'scene_attributelist_de.json';
-        $scene_attributelist_de = $this->CreateAttributeListFromJsonFile($jsonPath);
-        $scene_attributelist_de->attributeCollection()->associate($scene_attributecollection)->save();
-        array_push($SceneAttributeList,$scene_attributelist_de);
-
-        ///SCENE ATTRIBUTE LIST ENGLISH
-        $jsonPath = database_path() . '/seeders/testdata/' . 'scene_attributelist_en.json';
-        $scene_attributelist_en = $this->CreateAttributeListFromJsonFile($jsonPath);
-        $scene_attributelist_en->attributeCollection()->associate($scene_attributecollection)->save();
-        array_push($SceneAttributeList,$scene_attributelist_en);
-
-        ///SCENE ATTRIBUTE LIST SPANISH
-        $jsonPath = database_path() . '/seeders/testdata/' . 'scene_attributelist_es.json';
-        $scene_attributelist_es = $this->CreateAttributeListFromJsonFile($jsonPath);
-        $scene_attributelist_es->attributeCollection()->associate($scene_attributecollection)->save();
-        array_push($SceneAttributeList,$scene_attributelist_es);
 
         //VOICES
+        $voice_json_data_array = GetArrayFromJsonFile('voice_json_data.json');
+        $voice_json_schema_array = GetArrayFromJsonFile('voice_json_schema.json');
 
         $voice_01 = Voice::create([
-            'name' => 'Voice name',
-            'description' => 'My voice description',
+            'name' => 'Voice name 01',
+            'description' => 'My first voice description',
+            'json_data' => json_encode($voice_json_data_array),
+            'json_schema' => json_encode($voice_json_schema_array),
             'application_id'=>$testApplications[0]->id,
             'organization_id'=>$testOrganizations[0]->id
         ]);
 
-        //voice attribute collection and list
-        $voice_attributecollection = AttributeCollection::create([
-            'languages' => json_encode(['de','en','es']),
-            'json_schema' => json_encode(['']),
-            'json_ui_schema' => json_encode(['']),
-            'voice_id'=> $voice_01->id
+        $voice_01 = Voice::create([
+            'name' => 'Voice name 02',
+            'description' => 'My second voice description',
+            'json_data' => json_encode($voice_json_data_array),
+            'json_schema' => json_encode($voice_json_schema_array),
+            'application_id'=>$testApplications[0]->id,
+            'organization_id'=>$testOrganizations[0]->id
         ]);
 
-        //VOICE ATTRIBUTE LISTS
 
-        $jsonPath = database_path() . '/seeders/testdata/' . 'voice_001_de.json';
-        $voice_attributelist_de = $this->CreateAttributeListFromJsonFile($jsonPath);
-        $voice_attributelist_de->attributeCollection()->associate($voice_attributecollection)->save();
 
-        $jsonPath = database_path() . '/seeders/testdata/' . 'voice_001_en.json';
-        $voice_attributelist_en = $this->CreateAttributeListFromJsonFile($jsonPath);
-        $voice_attributelist_en->attributeCollection()->associate($voice_attributecollection)->save();
-
-        $jsonPath = database_path() . '/seeders/testdata/' . 'voice_001_es.json';
-        $voice_attributelist_es = $this->CreateAttributeListFromJsonFile($jsonPath);
-        $voice_attributelist_es->attributeCollection()->associate($voice_attributecollection)->save();
-
+        //TEST USER PRIVILEGES
 
         echo("\n");
         echo("user test");
@@ -297,14 +249,6 @@ class DatabaseSeeder extends Seeder
         echo("\n");
 
 
-    }
-
-    function CreateAttributeListFromJsonFile($filePath){
-        $testAppAttributeListArray = json_decode(file_get_contents($filePath), true);
-        return AttributeList::create([
-            'language_key' => 'de',
-            'json_data'=> json_encode($testAppAttributeListArray)
-        ]);
     }
 
 }

@@ -24,10 +24,10 @@ class WalletFactory extends Factory
     public function definition(): array
     {
         return [
-            'credit' => $this->faker->randomNumber(),
-            'user_id' => User::factory(),
-            'organization_id' => Organization::factory(),
-            'membership_id' => Membership::factory(),
+            'credit' => 0,
+            'user_id' => null,
+            'organization_id' => null,
+            'membership_id' => null,
         ];
     }
 }

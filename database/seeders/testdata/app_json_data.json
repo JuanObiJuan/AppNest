@@ -1,0 +1,42 @@
+{
+    "app_name": {
+        "en": "My App Name in English",
+        "de": "Mein App-Name auf Deutsch",
+        "es": "Nombre de mi aplicación en español"
+    },
+    "app_description": {
+        "en": "Multiline description of my application in english:\n- here you can find some points \n- enumerated as a list \n- showed in the editor as a multiline editor",
+        "de": "Mehrzeilige Beschreibung meiner Bewerbung auf Deutsch:\n- hier finden Sie einige Punkte\n- als Liste aufgezählt\n- wird im Editor als mehrzeiliger Editor angezeigt",
+        "es": "Descriptión multilinea de mi aplicación en español:\n- aquí puedes encontrar algunos puntos \n- enumerados como una lista \n- mostrados en el editor como multilinea"
+    },
+    "button_start": {
+        "en": "Start",
+        "de": "Start",
+        "es": "Comenzar"
+    },
+    "button_cancel": {
+        "en": "Cancel",
+        "de": "Stornieren",
+        "es": "Cancelar"
+    },
+    "button_continue": {
+        "en": "Continue",
+        "de": "Weiter",
+        "es": "Continuar"
+    },
+    "url_login": {
+        "en": "http://logindomain.com/login/en",
+        "de": "http://logindomain.com/login/de",
+        "es": "http://logindomain.com/login/es"
+    },
+    "require_credit": {
+        "en": true,
+        "de": true,
+        "es": true
+    },
+    "waiting_timer": {
+        "en": 2.3,
+        "de": 2.3,
+        "es": 2.3
+    }
+}

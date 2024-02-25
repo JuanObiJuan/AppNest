@@ -14,7 +14,12 @@ return new class extends Migration
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->string('default_language');
+            $table->json('languages')->nullable();
+            $table->string('default_language')->nullable();
+            $table->json('json_data')->nullable();
+            $table->json('json_schema')->nullable();
+            $table->json('json_admin_ui_schema')->nullable();
+            $table->json('json_manager_ui_schema')->nullable();
             $table->foreignIdFor(\App\Models\Organization::class)->nullable();
         });
     }

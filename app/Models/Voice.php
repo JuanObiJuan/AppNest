@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Voice extends Model
 {
@@ -26,6 +25,10 @@ class Voice extends Model
     protected $fillable = [
         'name',
         'description',
+        'json_data',
+        'json_schema',
+        'json_admin_ui_schema',
+        'json_manager_ui_schema',
         'application_id',
         'organization_id',
     ];
@@ -37,6 +40,10 @@ class Voice extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'json_data' => 'array',
+        'json_schema' => 'array',
+        'json_admin_ui_schema' => 'array',
+        'json_manager_ui_schema' => 'array',
         'application_id' => 'integer',
         'organization_id' => 'integer',
     ];
@@ -49,10 +56,5 @@ class Voice extends Model
     public function organization(): BelongsTo
     {
         return $this->belongsTo(Organization::class);
-    }
-
-    public function attributeCollection(): HasOne
-    {
-        return $this->hasOne(AttributeCollection::class);
     }
 }

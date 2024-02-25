@@ -1,0 +1,68 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "voice_provider_id": {
+            "type": "object",
+            "properties": {
+                "en": {
+                    "type": "string"
+                },
+                "de": {
+                    "type": "string"
+                },
+                "es": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "en",
+                "de",
+                "es"
+            ]
+        },
+        "voice_pitch": {
+            "type": "object",
+            "properties": {
+                "en": {
+                    "type": "number"
+                },
+                "de": {
+                    "type": "number"
+                },
+                "es": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "en",
+                "de",
+                "es"
+            ]
+        },
+        "speaking_rate": {
+            "type": "object",
+            "properties": {
+                "en": {
+                    "type": "number"
+                },
+                "de": {
+                    "type": "number"
+                },
+                "es": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "en",
+                "de",
+                "es"
+            ]
+        }
+    },
+    "required": [
+        "voice_provider_id",
+        "voice_pitch",
+        "speaking_rate"
+    ]
+}
