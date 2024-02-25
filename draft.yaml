@@ -13,28 +13,16 @@ models:
 
   Application:
     timestamps: false
-    name: string:100
-    default_language: string
+    name: string:100 nullable
+    default_language: string nullable
+    languages: json nullable
+    json_data: json nullable
+    json_schema: json nullable
+    json_admin_ui_schema: json nullable
+    json_manager_ui_schema: json nullable
     relationships:
       hasMany: Scene, Voice
       belongsTo: Organization
-      hasOne: AttributeCollection
-
-  AttributeCollection:
-    timestamps: false
-    languages: json
-    json_schema: json
-    json_ui_schema: json
-    relationships:
-      hasMany: AttributeList
-      belongsTo: Application, Scene, Voice
-
-  AttributeList:
-    timestamps: false
-    language_key: string
-    json_data: json
-    relationships:
-      belongsTo: AttributeCollection
 
   Membership:
     timestamps: false
@@ -53,16 +41,22 @@ models:
   Scene:
     sort_by: unsigned integer nullable
     name: string nullable
+    json_data: json nullable
+    json_schema: json nullable
+    json_admin_ui_schema: json nullable
+    json_manager_ui_schema: json nullable
     timestamps: false
     relationships:
       belongsTo: Application, Organization
-      hasOne: AttributeCollection
 
   Voice:
     name: string nullable
     description: string nullable
     timestamps: false
+    json_data: json nullable
+    json_schema: json nullable
+    json_admin_ui_schema: json nullable
+    json_manager_ui_schema: json nullable
     relationships:
       belongsTo: Application, Organization
-      hasOne: AttributeCollection
 
