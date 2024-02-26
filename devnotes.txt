@@ -21,7 +21,7 @@ $json = '{"name": "John Doe", "age": 30, "is_student": false, "courses": ["Math"
 // Decode the JSON string into a PHP object
 $data = json_decode($json);
 
-// Function to recursively analyze the data and generate a schema proposal
+// early Function to recursively analyze the data and generate a schema proposal
 function analyzeData($data, $level = 0) {
     foreach ($data as $key => $value) {
         echo str_repeat(" ", $level * 4) . "$key: " . getType($value) . "\n";
@@ -42,6 +42,82 @@ name: string
 age: integer
 is_student: boolean
 courses: array
+
+
+to remove a package from composer:
+- delete line
+- run composer update vendor/package-name
+
+FTP SERVER
+
+The idea for production is to have several servers working in parallel, for that reason every instance can not store and serve their own media content.
+We can not use S3 (GDPR) so a solution is to configure a ftp disk as the media disk to (upload) store the media files in a different server.
+When the assets are request the urls should match the public domain and url of the file server.
+To do this you should have some considerations:
+ - put in your env file the ftp settings
+                    FTP_HOST=www.yourftpserver.com
+                    FTP_USER=yourusernamecredentials
+                    FTP_PASSWORD=yourpasswordcredentials
+                    FTP_BASE_URL=https://yourpublicdomain.com/baseurl/
+
+  - add the ftp disk in Laravel filesystem.php
+                    'media_ftp' => [
+                                'driver' => 'ftp',
+                                           'host' => env('FTP_HOST'),
+                                           'username' => env('FTP_USER'),
+                                           'password' => env('FTP_PASSWORD'),
+                                           // Optional FTP settings...
+                                           'port' => 21,
+                                           'ssl' => true,
+                                           'passive'  => true,                            ]
+
+  - tell filament and media library to use that disk
+                    in media-library.php change 'disk_name' => env('MEDIA_DISK', 'media_ftp')
+                    in filament.php 'default_filesystem_disk' => env('FILAMENT_FILESYSTEM_DISK', 'media_ftp')
+  - the folder holding the media files should have CORS enabled in the .htaccess file
+                     <IfModule mod_headers.c>
+                            # Enable CORS for all files
+                            Header set Access-Control-Allow-Origin "*"
+
+                            # Specifically for images, if needed, though the above line covers all file types
+                            <FilesMatch "\.(jpg|jpeg|png|gif|svg)$">
+                                Header set Access-Control-Allow-Origin "*"
+                            </FilesMatch>
+                     </IfModule>
+  - you need to extend the media model to override the get url method
+                     just create a Media model extending the original and including the MEDIA_FTP_BASE_URL as a prefix for the url
+
+                        <?php
+                        namespace App\Models;
+
+                        use Spatie\MediaLibrary\MediaCollections\Models\Media as BaseMedia;
+
+                        class Media extends BaseMedia
+                        {
+                            public function getUrl($conversionName = ''): string
+                            {
+                                $path = parent::getUrl($conversionName);
+
+                                // Check if it's stored on the FTP disk and prepend the custom URL
+                                if ($this->disk === 'media_ftp') {
+                                    return env('FTP_BASE_URL')  . ltrim($path, '/');
+                                }
+
+                                return $path;
+                            }
+                        }
+
+                     and then change in MediaLibrary (/config/media-library.php) the Media model to use
+
+                        'media_model' => App\Models\Media::class,
+
+  - you can test the disk connection with a php artisan command, this test will write a file on the disk, read the content, print it on the console and delete it
+                    - php artisan test:ftp
+
+
+
+
+
 
 
 

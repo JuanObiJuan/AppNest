@@ -58,16 +58,14 @@ return [
         'media_ftp' => [
             'driver' => 'ftp',
             'host' => env('FTP_HOST'),
-            'username' => env('FTP_USERNAME'),
+            'username' => env('FTP_USER'),
             'password' => env('FTP_PASSWORD'),
-            'root'   => '/root/',
-            'url'    => '/url/',
-
             // Optional FTP settings...
-            // 'port' => 21,
+            'port' => 21,
             // 'root' => '',
             // 'passive' => true,
-            // 'ssl' => true,
+            'ssl' => true,
+            'passive'  => true,
             // 'timeout' => 30,
         ],
 
