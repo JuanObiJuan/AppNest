@@ -18,8 +18,11 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class OrganizationResource extends Resource
 {
     protected static ?string $model = Organization::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'Organization';
+    protected static ?string $modelLabel = 'Organization';
+    protected static ?string $navigationGroup = 'Organization Management';
+    protected static ?int $navigationSort = 0;
 
     public static function form(Form $form): Form
     {
@@ -36,8 +39,6 @@ class OrganizationResource extends Resource
                 Forms\Components\TextInput::make('website'),
                 Forms\Components\TextInput::make('email')
                     ->email(),
-                //SpatieMediaLibraryFileUpload::make('logo')
-
                 Forms\Components\SpatieMediaLibraryFileUpload::make('logo')->image()->imageEditor()
             ]);
     }
@@ -46,19 +47,15 @@ class OrganizationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                SpatieMediaLibraryImageColumn::make('logo'),
 
-                Tables\Columns\IconColumn::make('cover_members_cost')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('allow_guests')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('cover_guests_cost')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('website')
+                SpatieMediaLibraryImageColumn::make('logo')->extraAttributes(['style' => 'max-width:100px']),
+
+                Tables\Columns\TextColumn::make('name')
+                    ->wrap()
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('email')
+                    ->wrap()
                     ->searchable(),
             ])
             ->filters([
@@ -66,6 +63,7 @@ class OrganizationResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -86,6 +84,7 @@ class OrganizationResource extends Resource
         return [
             'index' => Pages\ListOrganizations::route('/'),
             'create' => Pages\CreateOrganization::route('/create'),
+            'view' => Pages\ViewOrganization::route('/{record}'),
             'edit' => Pages\EditOrganization::route('/{record}/edit'),
         ];
     }

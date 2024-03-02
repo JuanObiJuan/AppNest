@@ -114,6 +114,24 @@ To do this you should have some considerations:
   - you can test the disk connection with a php artisan command, this test will write a file on the disk, read the content, print it on the console and delete it
                     - php artisan test:ftp
 
+Currently, there is a problem using ftp disk, the ftp adapter is not working with frankenphp.
+Temporary we can use a S3 disk for media following the steps:
+- Put the right s3 credentials on the .env file
+- let filesystem.php create the already configured s3
+- in /config/filament.php: 'default_filesystem_disk' => env('FILAMENT_FILESYSTEM_DISK', 's3'),
+- in /config/media-library.php:
+    - 'disk_name' => env('MEDIA_DISK', 's3')
+    - let the original media model 'media_model' => Spatie\MediaLibrary\MediaCollections\Models\Media::class
+
+
+To configure Amazon S3 as media disk
+
+FILAMENT
+
+php artisan make:filament-resource Application --view --generate
+
+
+
 
 
 

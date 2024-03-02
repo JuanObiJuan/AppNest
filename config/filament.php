@@ -40,7 +40,7 @@ return [
     |
     */
 
-    'default_filesystem_disk' => env('FILAMENT_FILESYSTEM_DISK', 'media_ftp'),
+    'default_filesystem_disk' => env('FILAMENT_FILESYSTEM_DISK', 's3'),
 
     /*
     |--------------------------------------------------------------------------

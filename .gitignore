@@ -25,3 +25,8 @@ Homestead.json
 #others
 .idea/
 public/build/
+public/js
+
+/caddy
+frankenphp
+frankenphp-worker.php
