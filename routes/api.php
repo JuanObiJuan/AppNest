@@ -75,3 +75,7 @@ Route::get('/attributelist/{id}', function (string $id) {
 //SCENE
 Route::get('/organizations/{org_id}/applications/{app_id}/scenes/{scene_id}', [SceneController::class, 'show'])
     ->middleware('auth:sanctum');
+
+Route::post('/organizations/{org_id}/applications/{app_id}/scenes/{scene_id}/chat/completions',
+    [\App\Http\Controllers\Api\OpenAiController::class,'chatCompletionRequest'])
+    ->middleware('auth:sanctum');

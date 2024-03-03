@@ -4,9 +4,11 @@ For Laravel 10, Media library, filament, etc environment needs
 - sudo apt install curl
 - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 
+
 Export whatever the script says and check nvm version
 - export [...]
 - command -v nvm
+
 
 Install last node last
 - nvm install --lts
@@ -45,5 +47,5 @@ Project Setup
 - npm run build
 - php artisan migrate
 - php artisan db:seed
-- php artisan serve
+- php artisan serve or php artisan octane:start
 

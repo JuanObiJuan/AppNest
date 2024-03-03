@@ -1,0 +1,15 @@
+- fill the right credentials in your env file:
+
+OPENAI_APIKEY: your api key
+OPENAI_DEFAULT_MODEL: openai model name used when the request don't provide one
+OPENAI_DEFAULT_TEMPERATURE: temperature value when the request don't provide one
+
+
+- Chat completions route example (POST)
+
+http://appdomain.com/organizations/1/applications/2/scenes/3/chat/completions
+
+
+- Command to test openaiservice
+
+php artisan test:openai
