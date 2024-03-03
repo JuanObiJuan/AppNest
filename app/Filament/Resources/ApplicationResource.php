@@ -9,6 +9,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -20,7 +21,7 @@ class ApplicationResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-window';
     protected static ?string $navigationLabel = 'Application';
     protected static ?string $modelLabel = 'Application';
-    protected static ?string $navigationGroup = 'Organization Management';
+    protected static ?string $navigationGroup = 'Application Management';
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
@@ -34,6 +35,8 @@ class ApplicationResource extends Resource
                 CodeEditor::make('languages')
                     ->required()
                     ->columnSpanFull(),
+                Forms\Components\SpatieMediaLibraryFileUpload::make('image')->image()->imageEditor(),
+
                 Forms\Components\TextInput::make('default_language')
                     ->maxLength(2)
                     ->default('en'),
@@ -43,13 +46,6 @@ class ApplicationResource extends Resource
                 CodeEditor::make('json_admin_ui_schema')
                     ->columnSpanFull(),
                 CodeEditor::make('json_manager_ui_schema')
-                    ->columnSpanFull(),
-//                Forms\Components\Textarea::make('json_data')
-//                    ->columnSpanFull(),
-
-                Forms\Components\Textarea::make('json_admin_ui_schema')
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('json_manager_ui_schema')
                     ->columnSpanFull(),
                 Forms\Components\Select::make('organization_id')
                     ->relationship('organization', 'name')
@@ -63,6 +59,8 @@ class ApplicationResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+                SpatieMediaLibraryImageColumn::make('image')->extraAttributes(['style' => 'max-width:100px']),
+
                 Tables\Columns\TextColumn::make('default_language')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('organization.name')

@@ -126,9 +126,7 @@ Temporary we can use a S3 disk for media following the steps:
 
 To configure Amazon S3 as media disk
 
-FILAMENT
 
-php artisan make:filament-resource Application --view --generate
 
 
 

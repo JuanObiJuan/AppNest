@@ -1,0 +1,3 @@
+FILAMENT
+
+php artisan make:filament-resource Application --view --generate
