@@ -93,6 +93,7 @@ class DatabaseSeeder extends Seeder
 
         $app_json_data_array = GetArrayFromJsonFile('app_json_data.json');
         $app_json_schema_array = GetArrayFromJsonFile('app_json_schema.json');
+        $app_json_admin_ui_schema_array = GetArrayFromJsonFile('app_json_ui_schema.json');
 
 
 
@@ -104,9 +105,11 @@ class DatabaseSeeder extends Seeder
                 Application::create([
                     'name' => $testItem['name'],
                     'languages' => json_encode($testItem['languages']),
+                    'default_language' => $testItem['default_language'],
                     'json_data' => json_encode($app_json_data_array),
                     'json_schema' => json_encode($app_json_schema_array),
-                    'default_language' => $testItem['default_language'],
+                    'json_admin_ui_schema' => json_encode($app_json_admin_ui_schema_array),
+                    'json_manager_ui_schema' => json_encode($app_json_admin_ui_schema_array)
                 ]);
             } else {
                 echo "already exist item " . $testItem['name'];
