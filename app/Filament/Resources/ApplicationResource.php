@@ -4,7 +4,9 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ApplicationResource\Pages;
 use App\Filament\Resources\ApplicationResource\RelationManagers;
+use App\Forms\Components\CustomJsonData;
 use App\Models\Application;
+use Creagia\FilamentCodeField\CodeField;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -26,31 +28,18 @@ class ApplicationResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $record = $form->getRecord();
+        $json_data_array = json_decode($record->json_data , true);
+        $json_schema_array = json_decode($record->json_schema , true);
+        $json_admin_ui_schema_array = json_decode($record->json_admin_ui_schema , true);
+
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(100)
-                    ->columnSpanFull(),
-                CodeEditor::make('languages')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\SpatieMediaLibraryFileUpload::make('image')->image()->imageEditor(),
-
-                Forms\Components\TextInput::make('default_language')
-                    ->maxLength(2)
-                    ->default('en'),
-                CodeEditor::make('json_data')->columnSpanFull(),
-                CodeEditor::make('json_schema')
-                    ->columnSpanFull(),
-                CodeEditor::make('json_admin_ui_schema')
-                    ->columnSpanFull(),
-                CodeEditor::make('json_manager_ui_schema')
-                    ->columnSpanFull(),
-                Forms\Components\Select::make('organization_id')
-                    ->relationship('organization', 'name')
-                    ->default(null),
-            ]);
+                Forms\Components\TextInput::make('name'),
+                CustomJsonData::make('json_data')
+                    ->jsonSchema($json_schema_array)
+                    ->jsonUiSchema($json_admin_ui_schema_array)
+                ]);
     }
 
     public static function table(Table $table): Table
