@@ -17,13 +17,7 @@ use Illuminate\Support\Facades\DB;
 function GetArrayFromJsonFile($filename)
 {
     $filePath = database_path() . '/seeders/testdata/' . $filename;
-    echo(file_get_contents($filePath));
-echo ("\n");
-    $json_array = json_decode(file_get_contents($filePath), true);
-    $json_string= json_encode($json_array,JSON_PRETTY_PRINT);
-    $json_array = json_decode($json_string, true);
-
-    return $json_array;
+    return json_decode(file_get_contents($filePath), true);
 }
 
 class DatabaseSeeder extends Seeder
