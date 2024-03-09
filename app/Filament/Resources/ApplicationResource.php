@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ApplicationResource extends Resource
@@ -92,23 +93,35 @@ class ApplicationResource extends Resource
         }
         $json_schema_array = json_decode($record->json_schema , true);
         $json_admin_ui_schema_array = json_decode($record->json_admin_ui_schema , true);
-
         $dynamicFields = self::GetDynamicFields($json_data_array, $json_schema_array, $json_admin_ui_schema_array);
+
+        /*
+        $form->(function (Form $form) use ($record) {
+            $inputData = request()->all(); // Get the submitted data
+            $currentData = json_decode($record->json_data, true);
+
+            // Merge the changes. This assumes $inputData is structured correctly to overlay onto $currentData
+            // Adjust this logic to fit your exact data structure and needs
+            foreach ($inputData as $key => $value) {
+                if (array_key_exists($key, $currentData)) {
+                    $currentData[$key] = $value;
+                }
+            }
+
+            // Encode the merged data back into a string
+            $record->json_data = json_encode($currentData);
+
+            // Since you're manually handling the save for json_data, you might want to remove it from the auto-saving process by Filament
+            unset($form->getModel()->json_data);
+        });
+*/
 
         return $form->schema(
             array_merge([
                 Forms\Components\TextInput::make('name'),
             ], $dynamicFields)
         );
-//        return $form
-//            ->schema([
-//                Forms\Components\TextInput::make('name'),
-//                CustomJsonData::make('json_data')
-//                    ->jsonSchema($json_schema_array)
-//                    ->jsonUiSchema($json_admin_ui_schema_array)
-//                ]);
     }
-
 
 
 

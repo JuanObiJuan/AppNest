@@ -17,7 +17,13 @@ use Illuminate\Support\Facades\DB;
 function GetArrayFromJsonFile($filename)
 {
     $filePath = database_path() . '/seeders/testdata/' . $filename;
-    return json_decode(file_get_contents($filePath), true);
+    echo(file_get_contents($filePath));
+echo ("\n");
+    $json_array = json_decode(file_get_contents($filePath), true);
+    $json_string= json_encode($json_array,JSON_PRETTY_PRINT);
+    $json_array = json_decode($json_string, true);
+
+    return $json_array;
 }
 
 class DatabaseSeeder extends Seeder
@@ -95,8 +101,6 @@ class DatabaseSeeder extends Seeder
         $app_json_schema_array = GetArrayFromJsonFile('app_json_schema.json');
         $app_json_admin_ui_schema_array = GetArrayFromJsonFile('app_json_ui_schema.json');
 
-
-
         foreach ($testArray as $testItem) {
             $dbApplication = DB::table('applications')->where('name', $testItem['name'])->first();
 
@@ -104,12 +108,12 @@ class DatabaseSeeder extends Seeder
                 echo "creating item " . $testItem['name'];
                 Application::create([
                     'name' => $testItem['name'],
-                    'languages' => json_encode($testItem['languages']),
+                    'languages' => $testItem['languages'],
                     'default_language' => $testItem['default_language'],
-                    'json_data' => json_encode($app_json_data_array),
-                    'json_schema' => json_encode($app_json_schema_array),
-                    'json_admin_ui_schema' => json_encode($app_json_admin_ui_schema_array),
-                    'json_manager_ui_schema' => json_encode($app_json_admin_ui_schema_array)
+                    'json_data' => $app_json_data_array,
+                    'json_schema' => $app_json_schema_array,
+                    'json_admin_ui_schema' => $app_json_admin_ui_schema_array,
+                    'json_manager_ui_schema' => $app_json_admin_ui_schema_array
                 ]);
             } else {
                 echo "already exist item " . $testItem['name'];
