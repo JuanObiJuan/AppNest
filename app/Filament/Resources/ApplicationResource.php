@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ApplicationResource\Pages;
 use App\Filament\Resources\ApplicationResource\RelationManagers;
 use App\Models\Application;
+use Creagia\FilamentCodeField\CodeField;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -14,6 +15,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Wiebenieuwenhuis\FilamentCodeEditor\Components\CodeEditor;
 
 class ApplicationResource extends Resource
 {
@@ -48,8 +50,6 @@ class ApplicationResource extends Resource
                                 ->placeholder($uiOptions['placeholder'] ?? '')
                                 ->rows($uiOptions['rows'] ?? 2)
                                 ->default($jsonData[$propertyKey][$langKey] ?? '');
-                            //echo(json_encode($jsonData[$propertyKey][$langKey]));
-
                             break;
 
                         case 'Toggle':
@@ -58,25 +58,21 @@ class ApplicationResource extends Resource
                                 ->default($jsonData[$propertyKey][$langKey] ?? false);
                             break;
 
-                        // Add more cases as needed for different types of fields
-
                         default:
-                            // Default to a simple TextInput if no specific component is matched
                             $field = Forms\Components\TextInput::make("json_data.".$propertyKey.".".$langKey)
                                 ->label($label)
                                 ->default($jsonData[$propertyKey][$langKey] ?? '');
                             break;
                     }
-                    if ($field) {
-                        $fields[] = $field;
-                    }
 
-                    // Add the dynamically created field to the fields array
-                    //$fields[] = $field;
+                    $fields[] = $field;
                 }
             }
         }
+        $newField = CodeEditor::make("json_schema")
+            ->default(json_encode($jsonSchema));
 
+        //$fields[]=$newField;
         return $fields;
     }
 
@@ -97,7 +93,6 @@ class ApplicationResource extends Resource
         else{
             $json_schema_array=json_decode($record->json_schema , true);
         }
-
         $json_admin_ui_schema_array=[];
         if (is_array($record->json_admin_ui_schema)){
             $json_admin_ui_schema_array=$record->json_admin_ui_schema;
@@ -106,33 +101,11 @@ class ApplicationResource extends Resource
             $json_admin_ui_schema_array=json_decode($record->json_admin_ui_schema , true);
         }
 
-
         $dynamicFields = self::GetDynamicFields($json_data_array, $json_schema_array, $json_admin_ui_schema_array);
-
-        /*
-        $form->(function (Form $form) use ($record) {
-            $inputData = request()->all(); // Get the submitted data
-            $currentData = json_decode($record->json_data, true);
-
-            // Merge the changes. This assumes $inputData is structured correctly to overlay onto $currentData
-            // Adjust this logic to fit your exact data structure and needs
-            foreach ($inputData as $key => $value) {
-                if (array_key_exists($key, $currentData)) {
-                    $currentData[$key] = $value;
-                }
-            }
-
-            // Encode the merged data back into a string
-            $record->json_data = json_encode($currentData);
-
-            // Since you're manually handling the save for json_data, you might want to remove it from the auto-saving process by Filament
-            unset($form->getModel()->json_data);
-        });
-*/
 
         return $form->schema(
             array_merge([
-                Forms\Components\TextInput::make('name'),
+                Forms\Components\TextInput::make('name')
             ], $dynamicFields)
         );
     }
