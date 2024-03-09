@@ -1,37 +1,36 @@
 {
-    "type": "VerticalLayout",
-    "elements": [
-        {
-            "type": "Control",
-            "scope": "#/properties/name"
-        },
-        {
-            "type": "Control",
-            "scope": "#/properties/name_noDefault"
-        },
-        {
-            "type": "Control",
-            "label": false,
-            "scope": "#/properties/done"
-        },
-        {
-            "type": "Control",
-            "scope": "#/properties/description",
-            "options": {
-                "multi": true
+    "app_name": {
+        "ui:component": "Textarea",
+        "ui:options": {
+            "en": {
+                "label": "Application Name (English)",
+                "placeholder": "Enter the app name in English",
+                "rows": 3
+            },
+            "de": {
+                "label": "Anwendungsname (Deutsch)",
+                "placeholder": "Geben Sie den Namen der App auf Deutsch ein",
+                "rows": 3
+            },
+            "es": {
+                "label": "Nombre de la Aplicación (Español)",
+                "placeholder": "Introduce el nombre de la app en Español",
+                "rows": 3
             }
-        },
-        {
-            "type": "Control",
-            "scope": "#/properties/rating"
-        },
-        {
-            "type": "Control",
-            "scope": "#/properties/cost"
-        },
-        {
-            "type": "Control",
-            "scope": "#/properties/dueDate"
         }
-    ]
+    },
+    "require_credit": {
+        "ui:component": "Toggle",
+        "ui:options": {
+            "en": {
+                "label": "This app require credit?"
+            },
+            "de": {
+                "label": "This app require credit?"
+            },
+            "es": {
+                "label": "This app require credit?"
+            }
+        }
+    }
 }
