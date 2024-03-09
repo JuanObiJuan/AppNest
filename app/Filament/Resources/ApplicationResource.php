@@ -83,7 +83,6 @@ class ApplicationResource extends Resource
     public static function form(Form $form): Form
     {
         $record = $form->getRecord();
-        //dd($record->json_data);
         $json_data_array=[];
         if (is_array($record->json_data)){
             $json_data_array=$record->json_data;
@@ -91,8 +90,23 @@ class ApplicationResource extends Resource
         else{
             $json_data_array=json_decode($record->json_data , true);
         }
-        $json_schema_array = json_decode($record->json_schema , true);
-        $json_admin_ui_schema_array = json_decode($record->json_admin_ui_schema , true);
+        $json_schema_array=[];
+        if (is_array($record->json_schema)){
+            $json_schema_array=$record->json_schema;
+        }
+        else{
+            $json_schema_array=json_decode($record->json_schema , true);
+        }
+
+        $json_admin_ui_schema_array=[];
+        if (is_array($record->json_admin_ui_schema)){
+            $json_admin_ui_schema_array=$record->json_admin_ui_schema;
+        }
+        else{
+            $json_admin_ui_schema_array=json_decode($record->json_admin_ui_schema , true);
+        }
+
+
         $dynamicFields = self::GetDynamicFields($json_data_array, $json_schema_array, $json_admin_ui_schema_array);
 
         /*
