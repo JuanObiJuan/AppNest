@@ -34,14 +34,52 @@ class CustomJsonData extends Field
     // Override the method that provides the data for the view
     protected function getViewData(): array
     {
-        return array_merge(parent::getViewData(), [
-            'schema' => $this->json_schema,
-            'uiSchema' => $this->json_ui_Schema,
-            //convert the json_data into a structure suitable for the form fields
-            'formData' => $this->getState() ? json_decode($this->getState(), true) : [],
-        ]);
-    }
+        $json_data = $this->getState();
 
+        $json_data_array = json_decode($json_data, true);
+        $json_schema_array = $this->json_schema;
+        $json_ui_schema_array = $this->json_ui_schema;
+
+        //TODO previous validation
+
+        $transformedData = [];
+
+        // Loop through the json_schema_array
+        foreach ($json_schema_array['properties'] as $key => $value) {
+            if (isset($json_data_array[$key])) {
+                $fieldData = [
+                    'type' => $value['type'], // Get the type of field (object, string, boolean, etc.)
+                    'values' => $json_data_array[$key], // Get the actual values from the json_data
+                ];
+
+                // If there's a UI schema for this field, add it to the fieldData array.
+                if (isset($json_ui_schema_array[$key])) {
+                    foreach ($json_ui_schema_array[$key] as $lang => $uiProps) {
+                        // Here, we're assuming that UI schema might contain placeholders, labels, etc., which we add to our array.
+                        // This is simplistic; depending on complexity, you might need a more robust merging strategy.
+                        if (!isset($fieldData['ui'])) {
+                            $fieldData['ui'] = [];
+                        }
+                        $fieldData['ui'][$lang] = $uiProps;
+                    }
+                }
+                // Add the fieldData array
+                $transformedData[$key] = $fieldData;
+            }
+        }
+
+        return [
+            'fields' => $transformedData,
+        ];
+    }
+    public function render(): \Illuminate\Contracts\View\View
+    {
+
+        $viewData = $this->getViewData(); // Assuming this is your existing method to prepare fields
+
+        return view('forms.components.custom-json-data', $viewData);
+
+    }
     protected function save(): void
     {
         $value = $this->getState();

@@ -1,19 +1,35 @@
-<x-dynamic-component
-    :component="$getFieldWrapperView()"
-    :field="$field"
->
-    <div x-data="{ state: $wire.$entangle('{{ $getStatePath() }}') }">
-        <!-- Interact with the `state` property in Alpine.js -->
-        Hello
+<div>
+    @foreach($fields as $fieldName => $fieldInfo)
+        @php
+            $fieldType = $fieldInfo['type'];
+            $fieldValues = $fieldInfo['values'];
+            $uiSettings = $fieldInfo['ui'] ?? [];
+        @endphp
 
-    </div>
+        @foreach($fieldValues as $lang => $value)
+            @php
+                $componentName = '';
+                $extraAttributes = [];
+                {{ logger($fieldType); }}
 
-    {{$getJsonSchema()}}
-    <br><br>
-    {{$getJsonUiSchema()}}
+                switch ($fieldType) {
+                    case 'string':
+                        $componentName = 'forms.components.text-input';
+                        $extraAttributes['placeholder'] = $uiSettings[$lang]['ui:placeholder'] ?? '';
+                        break;
+                    case 'boolean':
+                        $componentName = 'forms.components.checkbox';
+                        $extraAttributes['label'] = $uiSettings[$lang]['ui:label'] ?? '';
+                        break;
+                }
+                $inputName = "{$fieldName}[{$lang}]";
+            @endphp
 
-    <script type="text/javascript">
-        var laravelVariable = @json($state);
-        console.log('Laravel Variable:', laravelVariable);
-    </script>
-</x-dynamic-component>
+            <x-dynamic-component :component="$componentName"
+                                 :attributes="$extraAttributes"
+                                 name="{{ $inputName }}"
+                                 :label="__('fields.'.$fieldName.'.'.$lang)"
+                                 :value="$value" />
+        @endforeach
+    @endforeach
+</div>
