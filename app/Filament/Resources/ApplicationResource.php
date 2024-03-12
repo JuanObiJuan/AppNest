@@ -16,6 +16,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use PhpParser\Node\Stmt\Switch_;
 use Wiebenieuwenhuis\FilamentCodeEditor\Components\CodeEditor;
 use function PHPUnit\Framework\isFalse;
 
@@ -33,37 +34,40 @@ class ApplicationResource extends Resource
         $mainSections = [];
         $fields = [];
 
-        // Iterate over json_schema properties to create form fields
+        // Iterate over json_schema properties
         foreach ($jsonSchema['properties'] as $propertyKey => $propertyValue) {
             $fieldType = $propertyValue['type'];
             $uiSchema = $jsonUiSchema[$propertyKey] ?? null;
 
-            isset($uiSchema['ui:readOnly'])?
-                $uiReadOnly=$uiSchema['ui:readOnly']==true:
-                $uiReadOnly=false;
+            isset($uiSchema['ui:readOnly']) ?
+                $uiReadOnly = $uiSchema['ui:readOnly'] == true :
+                $uiReadOnly = false;
 
-            // Based on the type of field from json schema,
-            // create appropriate Filament form group of fields
+            // For every key in json_schema we will create a group of nested components for languages
+            // The component will be the type defined on json_ui_schema or
+            // in case there is no ui:component description we will take the type of the json_schema
+
             if ($fieldType === 'object') {
                 //This is a header fore each key
                 $placeHolder = Forms\Components\Placeholder::make($propertyKey)
-                    ->label("KEY ".$propertyKey)
-                ->columnSpanFull();
-                if(isset($uiSchema['ui:helper'])&&$uiSchema['ui:helper']!="")$placeHolder->helperText($uiSchema['ui:helper']);
+                    ->label("KEY " . $propertyKey)
+                    ->columnSpanFull();
 
-                $fields[]=$placeHolder;
+                if (isset($uiSchema['ui:helper']) && $uiSchema['ui:helper'] != "") $placeHolder->helperText($uiSchema['ui:helper']);
+
+                $fields[] = $placeHolder;
 
                 foreach ($propertyValue['properties'] as $langKey => $langValue) {
                     $field = null;
                     $uiSchemaProperties = $uiSchema['properties'][$langKey] ?? [];
-                    $label = $propertyKey." (".$langKey.")";
-                    $uiComponentType = $uiSchema['ui:component']??null;
+                    $label = $propertyKey . " (" . $langKey . ")";
+                    $uiComponentType = $uiSchema['ui:component'] ?? null;
 
                     // Create field based on component type
                     switch ($uiComponentType) {
                         case 'Textarea':
                             $field = Forms\Components\Textarea::make("json_data." . $propertyKey . "." . $langKey)
-                                ->label($propertyKey." (".$langKey.")")
+                                ->label($propertyKey . " (" . $langKey . ")")
                                 //->placeholder($uiOptions['placeholder'] ?? '')
                                 ->helperText($uiSchemaProperties['helper'] ?? '')
                                 ->autosize()
@@ -88,14 +92,48 @@ class ApplicationResource extends Resource
                             break;
 
                         default:
-                            $field = Forms\Components\TextInput::make("json_data." . $propertyKey . "." . $langKey)
-                                ->label($label)
-                                ->placeholder($uiSchemaProperties['placeholder'] ?? '')
-                                ->helperText($uiSchemaProperties['helper'] ?? '')
-                                ->default($jsonData[$propertyKey][$langKey] ?? '');
+                            //the default it will be triggered when the key is
+                            //in the schema but there is no definition in the ui_schema
+                            //so we will base the component in the json_schema type
+                            $schemaPropertyType = $jsonSchema['properties'][$propertyKey]['properties'][$langKey]['type'];
+                            switch ($schemaPropertyType) {
+                                case'string':
+                                    $field = Forms\Components\TextInput::make("json_data." . $propertyKey . "." . $langKey)
+                                        ->label($label)
+                                        ->placeholder($uiSchemaProperties['placeholder'] ?? '')
+                                        ->helperText($uiSchemaProperties['helper'] ?? '')
+                                        ->default($jsonData[$propertyKey][$langKey] ?? '');
+                                    break;
+                                case'boolean':
+                                    $field = Forms\Components\Toggle::make("json_data." . $propertyKey . "." . $langKey)
+                                        ->label($label)
+                                        ->helperText($uiSchemaProperties['helper'] ?? '')
+                                        ->default($jsonData[$propertyKey][$langKey] ?? false)
+                                        ->columns(1);
+                                    break;
+                                case'number':
+                                    $field = Forms\Components\TextInput::make("json_data." . $propertyKey . "." . $langKey)
+                                        ->label($label)
+                                        ->numeric()
+                                        ->placeholder($uiSchemaProperties['placeholder'] ?? '')
+                                        ->helperText($uiSchemaProperties['helper'] ?? '')
+                                        ->default($jsonData[$propertyKey][$langKey] ?? '');
+                                    break;
+                                default:
+                                    $field = Forms\Components\TextInput::make("json_data." . $propertyKey . "." . $langKey)
+                                        ->label($label)
+                                        ->placeholder($uiSchemaProperties['placeholder'] ?? '')
+                                        ->helperText($uiSchemaProperties['helper'] ?? '')
+                                        ->default($jsonData[$propertyKey][$langKey] ?? '');
+                                    break;
+
+                            }
+
+
                             break;
                     }
-                    $field->disabled($uiReadOnly);
+
+                    //$field->disabled($uiReadOnly);
                     $fields[] = $field;
                 }
             }
@@ -112,23 +150,23 @@ class ApplicationResource extends Resource
     {
         $record = $form->getRecord();
 
-        is_array($record->json_data)?
-            $json_data_array = $record->json_schema:
+        is_array($record->json_data) ?
+            $json_data_array = $record->json_schema :
             $json_data_array = json_decode($record->json_schema, true);
 
-        is_array($record->json_schema)?
-            $json_schema_array = $record->json_schema:
+        is_array($record->json_schema) ?
+            $json_schema_array = $record->json_schema :
             $json_schema_array = json_decode($record->json_schema, true);
 
-        is_array($record->json_admin_ui_schema)?
-            $json_admin_ui_schema_array = $record->json_admin_ui_schema:
+        is_array($record->json_admin_ui_schema) ?
+            $json_admin_ui_schema_array = $record->json_admin_ui_schema :
             $json_admin_ui_schema_array = json_decode($record->json_admin_ui_schema, true);
 
-        $dynamicSection =  self::GetDynamicSection($json_data_array, $json_schema_array, $json_admin_ui_schema_array);
+        $dynamicSection = self::GetDynamicSection($json_data_array, $json_schema_array, $json_admin_ui_schema_array);
 
         return $form->schema(
             array_merge(
-                //NATIVE FIELDS FROM THE MODEL GOES HERE
+            //NATIVE FIELDS FROM THE MODEL GOES HERE
                 [
                     Forms\Components\TextInput::make('name')
                         ->columns(1),
@@ -147,7 +185,7 @@ class ApplicationResource extends Resource
                 //CODE EDITORS TO EDIT SCHEMAS GOES HERE
                 [
                     Section::make('Json Schema')
-                        ->description('Change the schema data')
+                        ->description('Change json schema')
                         ->schema([
                             CodeField::make('json_schema')
                                 ->withLineNumbers()
@@ -157,7 +195,7 @@ class ApplicationResource extends Resource
                         ])
                         ->collapsed(),
                     Section::make('Json Admin UI Schema')
-                        ->description('Change the ui for admin users')
+                        ->description('Change json ui schema for admin users')
                         ->schema([
                             CodeField::make('json_admin_ui_schema')
                                 ->withLineNumbers()
@@ -167,7 +205,7 @@ class ApplicationResource extends Resource
                         ])
                         ->collapsed(),
                     Section::make('Json Manager UI Schema')
-                        ->description('Change the ui for manager users')
+                        ->description('Change json ui schema  ui for manager users')
                         ->schema([
                             CodeField::make('json_manager_ui_schema')
                                 ->withLineNumbers()
