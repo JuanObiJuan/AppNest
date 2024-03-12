@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\OpenAIService;
 use Illuminate\Support\ServiceProvider;
 
 class OpenAIServiceProvider extends ServiceProvider
