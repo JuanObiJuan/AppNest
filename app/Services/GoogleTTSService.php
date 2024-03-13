@@ -9,13 +9,10 @@ use Google\ApiCore\ValidationException;
 use Google\Cloud\TextToSpeech\V1\AudioConfig;
 use Google\Cloud\TextToSpeech\V1\AudioEncoding;
 use Google\Cloud\TextToSpeech\V1\Client\TextToSpeechClient;
-use Google\Cloud\TextToSpeech\V1\CustomVoiceParams;
 use Google\Cloud\TextToSpeech\V1\ListVoicesRequest;
 use Google\Cloud\TextToSpeech\V1\SynthesisInput;
 use Google\Cloud\TextToSpeech\V1\SynthesizeSpeechRequest;
-use Google\Cloud\TextToSpeech\V1\SynthesizeSpeechResponse;
 use Google\Cloud\TextToSpeech\V1\VoiceSelectionParams;
-use phpDocumentor\Reflection\Types\Integer;
 
 class GoogleTTSService
 {
@@ -50,13 +47,12 @@ class GoogleTTSService
     function set_audio_encoding():void{
         //By default, audio encoding will be LINEAR16
         $this->audioEncoding = AudioEncoding::LINEAR16;
-        //consider other options
+        //consider other options from the config
         $audioEncodingConfig = config('googletts.audio_encoding');
-        $audioEncodingConfig==='MP3'??$this->audioEncoding =AudioEncoding::MP3;
-        $audioEncodingConfig==='ALAW'??$this->audioEncoding =AudioEncoding::ALAW;
-        $audioEncodingConfig==='MULAW'??$this->audioEncoding =AudioEncoding::MULAW;
-        $audioEncodingConfig==='OGG_OPUS'??$this->audioEncoding =AudioEncoding::OGG_OPUS;
-
+        if ($audioEncodingConfig==='MP3') $this->audioEncoding = AudioEncoding::MP3;
+        if ($audioEncodingConfig==='ALAW') $this->audioEncoding = AudioEncoding::ALAW;
+        if ($audioEncodingConfig==='MULAW') $this->audioEncoding = AudioEncoding::MULAW;
+        if ($audioEncodingConfig==='OGG_OPUS') $this->audioEncoding = AudioEncoding::OGG_OPUS;
     }
 
     function set_voices(): void
