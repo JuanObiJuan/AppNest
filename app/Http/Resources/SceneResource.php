@@ -18,7 +18,8 @@ class SceneResource extends JsonResource
             'scene_id' => $this->id,
             'sort_by' => $this->sort_by,
             'name' => $this->name,
-            'scene_attributes'=>$this->when($this->attributeCollection, new AttributeCollectionResource($this->attributeCollection))
+            'json_data'=>$this->json_data,
+            'json_schema'=>$this->json_schema,
         ];
     }
 }

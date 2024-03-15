@@ -3,34 +3,29 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ApplicationResource;
 use App\Http\Resources\OrganizationResource;
 use App\Models\Membership;
 use App\Models\Organization;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class OrganizationController extends Controller
 {
 
-    public function show($id)
+    public function show(Request $request, Organization $organization)
     {
-        $user = Auth::user();
-        $organization = Organization::find($id);
+        $user_is_super_admin=$request->attributes->get('user_is_super_admin');
+        $user_is_org_admin=$request->attributes->get('user_is_org_admin');
+        $user_is_org_manager=$request->attributes->get('user_is_org_manager');
+        $user_is_org_member=$request->attributes->get('user_is_org_member');
+        $user_is_org_guest=$request->attributes->get('user_is_org_guest');
 
-        if ($organization===null) return response()->json(['error' => 'Not found.'],404);
-
-        $user_is_superAdmin = $user->isSuperAdmin();
-        $user_is_OrgAdmin = $user->isOrgAdmin($id);
-        $user_is_OrgManager = $user->isOrgManager($id);
-        $user_is_OrgMember = $user->isOrgMember($id);
-        $user_is_allowed_As_guest = $organization->GuestAreAllowed();
-
-        if ($user_is_superAdmin||$user_is_OrgAdmin||$user_is_OrgManager||$user_is_OrgMember||$user_is_allowed_As_guest){
-
-            return new OrganizationResource($organization);
-        }
-
-        return response()->json(['error' => 'Not authorized.'],403);
-
+        //Return application resource if user is allowed
+        if ($user_is_super_admin|| $user_is_org_admin|| $user_is_org_manager||
+            $user_is_org_member|| $user_is_org_guest) return new OrganizationResource($organization);
+        //If other case decline the response as not authorize
+        else return $this->NotAuthorize();
     }
 
     public function index()

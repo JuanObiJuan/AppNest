@@ -20,9 +20,11 @@ class ApplicationResource extends JsonResource
             'name' => $this->name,
             'organization_id' => $this->organization->id,
             'default_language' => $this->default_language,
-            'app_attributes'=>$this->when($this->attributeCollection, new AttributeCollectionResource($this->attributeCollection)),
-            'scenes'=> SceneResource::collection($this->whenLoaded('scenes')),
-            'voices'=>  VoiceResource::collection($this->whenLoaded('voices')),
+            'scenes'=> $this->whenLoaded('scenes', $this->scenes->pluck('id')),
+            'voices'=> $this->whenLoaded('voices', $this->voices->pluck('id')),
+            'json_data'=>$this->json_data,
+            'json_schema'=>$this->json_schema,
+
         ];
     }
 

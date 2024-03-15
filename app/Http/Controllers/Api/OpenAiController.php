@@ -3,16 +3,28 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\VoiceResource;
 use App\Models\Application;
 use App\Models\Membership;
 use App\Models\Organization;
+use App\Models\Scene;
 use App\Services\OpenAIService;
 use Illuminate\Http\Request;
 
 class OpenAiController extends Controller
 {
-    public function chatCompletionRequest(Request $request, $org_id, $app_id, $scene_id)
+    public function chatCompletionRequest(Request $request,Organization $organization, Application $application, Scene $scene)
     {
+
+        $user_is_super_admin=$request->attributes->get('user_is_super_admin');
+        $user_is_org_admin=$request->attributes->get('user_is_org_admin');
+        $user_is_org_manager=$request->attributes->get('user_is_org_manager');
+        $user_is_org_member=$request->attributes->get('user_is_org_member');
+        $user_is_org_guest=$request->attributes->get('user_is_org_guest');
+        $user_ia_allowed = $user_is_super_admin||$user_is_org_member||$user_is_org_guest;
+
+
+
         $membership = Membership::where('user_id', auth()->user()->id)
             ->where('organization_id', $org_id)
             ->first();

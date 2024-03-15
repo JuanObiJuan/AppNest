@@ -20,8 +20,8 @@ class VoiceResource extends JsonResource
             'voice_id' => $this->id,
             'name' => $this->name,
             'description'=> $this->description,
-            //'attribute_collection' => AttributeCollectionResource($this->whenLoaded('attributeCollection')),
-            'voice_attributes'=>$this->when($this->attributeCollection, new AttributeCollectionResource($this->attributeCollection))
+            'json_data'=>$this->json_data,
+            'json_schema'=>$this->json_schema
         ];
     }
 }

@@ -4,57 +4,35 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ApplicationResource;
-use App\Http\Resources\OrganizationResource;
 use App\Models\Application;
 use App\Models\Membership;
 use App\Models\Organization;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ApplicationController extends Controller
 {
-    public function show($id)
+    public function show(Request $request, Organization $organization,Application $application)
     {
-        $application = Application::find($id);
+        $user_is_super_admin=$request->attributes->get('user_is_super_admin');
+        $user_is_org_admin=$request->attributes->get('user_is_org_admin');
+        $user_is_org_manager=$request->attributes->get('user_is_org_manager');
+        $user_is_org_member=$request->attributes->get('user_is_org_member');
+        $user_is_org_guest=$request->attributes->get('user_is_org_guest');
 
-        if (!$application) return response()->json(['error' => 'Not found.'],404);
-
-        return $this->showAppFromOrg($application->organization_id,$id);
-
-    }
-    public function showAppFromOrg($org_id,$app_id){
-
-        $user = Auth::user();
-        $application = Application
-            ::with(['attributeCollection.attributeLists','scenes.attributeCollection.attributeLists','voices.attributeCollection.attributeLists'])
-            ->find($app_id);
-        //echo($application->toJson(JSON_PRETTY_PRINT));
-
-        $organization = Organization::find($org_id);
-
-        if (!$application||!$organization||$application->organization_id!=$organization->id) return response()->json(['error' => 'Not found.'],404);
-
-        $user_is_superAdmin = $user->isSuperAdmin();
-        $user_is_OrgAdmin = $user->isOrgAdmin($org_id);
-        $user_is_OrgManager = $user->isOrgManager($org_id);
-        $user_is_OrgMember = $user->isOrgMember($org_id);
-        $user_is_allowed_As_guest = $organization->GuestAreAllowed();
-
-        if ($user_is_superAdmin
-            ||$user_is_OrgAdmin
-            ||$user_is_OrgManager
-            ||$user_is_OrgMember
-            ||$user_is_allowed_As_guest
-        ) return new ApplicationResource($application);
-
+        //Return application resource if user is allowed
+        if ($user_is_super_admin|| $user_is_org_admin|| $user_is_org_manager||
+            $user_is_org_member|| $user_is_org_guest) return new ApplicationResource($application);
         //If other case decline the response as not authorize
+        else return $this->NotAuthorize();
+    }
+    public function NotAuthorize(){
         return response()->json(['error' => 'Not authorized.'],403);
     }
-
-    public function index()
+    public function index(Request $request,Organization $organization)
     {
         $user = Auth::user();
         $user_is_superAdmin = $user->isSuperAdmin();
-
         if ($user_is_superAdmin) return ApplicationResource::collection(Application::all());
 
         $organizationIds_as_member = Membership::where('user_id', $user->id)
@@ -65,13 +43,10 @@ class ApplicationController extends Controller
 
         if (count($organizationIds)>0){
             $applications = Application
-                ::with('attributeCollection.attributeLists')
                 ::whereIn('organization_id', $organizationIds)
                 ->get();
-            echo($applications->toJson(JSON_PRETTY_PRINT));
             return ApplicationResource::collection($applications);
         }
-
-        return response()->json(['error' => 'Not found.'],404);
+        else return $this->NotAuthorize();
     }
 }
