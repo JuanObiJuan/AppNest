@@ -7,7 +7,7 @@ For Laravel 10, Media library, filament, etc environment needs
 
 Export whatever the script says and check nvm version
 - export [...]
-- command -v nvm
+- nvm -v
 
 
 Install last node last
